@@ -1,0 +1,64 @@
+# Node.js依赖
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# 编译产物和打包文件
+/dist/
+/unpackage/
+/lib/
+/build/
+
+# 开发环境
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 编辑器和IDE文件
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 日志文件
+logs/
+*.log
+
+# 临时文件
+.tmp/
+temp/
+*.tmp
+
+# uni-app特有
+/src/manifest.local.json
+.hbuilderx/
+
+# 本地证书
+*.pfx
+*.pem
+*.key
+
+# 代码覆盖率报告
+coverage/
+
+# 个人配置
+.private.config.json
+project.private.config.json
+
+# 其他可能需要忽略的文件
+.gitlab-ci.yml
+.drone.yml
+.circleci/ 
