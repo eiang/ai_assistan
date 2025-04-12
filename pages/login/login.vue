@@ -1,12 +1,15 @@
 <template>
   <view class="login-container">
+    <view class="back-button" @tap="goBack">
+      <text class="back-icon">←</text>
+    </view>
     <view class="login-content">
       <view class="avatar-container">
         <view class="avatar">
         <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNmZmUwYjIiIGQ9Ik0yNiwxNmMtMTAuNzQ3LDAtMTkuODk5LDMuNC0yNS44NTYsNi4zNzVDMC4wNTEsMjMuMDczLDAsMjMuNzgyLDAsMjQuNUMwLDM1LjI3LDEwLjc0NSw0NCwyNCw0NAlzMjQtOC43MywyNC0xOS41YzAtMS4zNi0wLjE3Mi0yLjY4Ny0wLjQ5OS0zLjk2OUM0MC40NDYsMTcuNTMzLDMzLjIxNywxNiwyNiwxNnoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5Yy0wLjAxNSwzLjc2NywyLjk0OCw3LjIzOSw2LjU3OSw3LjM3NmMzLjU4OCwwLjEzNiw1LjkyOC0zLjA2Niw1LjMyNi02Ljc4NgljLTAuNTQ2LTMuMzctMy4zNjQtNi4wMjItNi4zNjctNi4yMDFDMjYuNTA2LDE3LjgyOSwyNC4wMTQsMjAuMjEzLDI0LDIzLjYxOXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5YzAuMDE1LDMuNzY3LTIuOTQ0LDcuMjM5LTYuNTcxLDcuMzc2Yy0zLjU4MywwLjEzNi01LjkyMS0zLjA2Ni01LjMxOS02Ljc4NgljMC41NDUtMy4zNywzLjM1OS02LjAyMiw2LjM1OC02LjIwMUMyMS40OTgsMTcuODI5LDIzLjk4NiwyMC4yMTMsMjQsMjMuNjE5eiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjQiIHI9IjEiIGZpbGw9IiMyMTIxMjEiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjI0IiByPSIxIiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZmlsbD0iIzIxMjEyMSIgZD0iTTI0Ljc1NCw0MGMtMi43NSwwLTQuNzE5LTEuMTQ4LTQuODAyLTEuMTk3bDEuMDIxLTEuNzIxQzIwLjk4NSwzNy4wODksMjIuNTc1LDM4LDI0Ljc1NCwzOAljMS44MDUsMCwzLjI1My0wLjcyNCwzLjI2OC0wLjczMWwwLjkxMywxLjc4QzI4Ljg2LDM5LjA4NywyNy4wNjEsNDAsMjQuNzU0LDQweiIvPjxwYXRoIGZpbGw9IiMwMDk3YTciIGQ9Ik0wLjM2MSwyMS4xNTFjLTAuMDg2LDAuNDA0LTAuMTU3LDAuODExLTAuMjE0LDEuMjIzQzYuMTA0LDE5LjM5OSwxNS4yNTQsMTYsMjYsMTYJYzcuMjEsMCwxNC40MzMsMS41MzEsMjEuNDgzLDQuNTI0Yy0wLjExMi0wLjQxNi0wLjI0LTAuODI4LTAuMzc5LTEuMjM2Yy0wLjEwMi0wLjA0Mi0wLjIwNC0wLjA3Ni0wLjMwNS0wLjExNwljMC4yMDEsMC4wNjYsMC4zMjcsMC4xMDksMC4zMjcsMC4xMDlDNDQuMzE3LDExLjA0NiwzNS4wMjksNSwyNCw1QzEyLjE1MSw1LDIuMzEsMTEuOTc2LDAuMzU1LDIxLjE0OWMwLDAsMC4wODktMC4wNDIsMC4yNTQtMC4xMTUJQzAuNTI4LDIxLjA3MywwLjQ0MSwyMS4xMTIsMC4zNjEsMjEuMTUxeiIvPjxwYXRoIGZpbGw9IiNmZmVhMDAiIGQ9Ik00Ny43NTIsMjEuNzE1Yy0wLjE0Ni0wLjgyOS0wLjM3OC0xLjYzNS0wLjY0OC0yLjQyN0M0MC4xNzQsMTYuNDU0LDMzLjA4MywxNSwyNiwxNQljLTEwLjU0NCwwLTE5LjU3NywzLjIxMS0yNS42MzksNi4xNTFjLTAuMTY3LDAuNzg1LTAuMjg0LDEuNTg1LTAuMzMyLDIuMzk5QzYuNDEsMjAuMjgzLDE1LjQ0NiwxNywyNiwxNwlDMzQuNTYxLDE3LDQyLjAxNywxOS4yLDQ3Ljc1MiwyMS43MTV6Ii8+PHBvbHlnb24gZmlsbD0iI2ZmZWEwMCIgcG9pbnRzPSIxNiw2LjExIDE2LjgyNiw0LjQwOCAxOCw0IDIwLDMgMjMsMyAyNCwyIDI2LjA2MSwyLjM0NCAyNy41LDMuNSAyOS41LDQgMzAsNS42MTQgMjksNi41IDI3LDYgMjYsNyAyNC41LDcgMjMsNiAyMC41LDcgMjAsNS41IDE4LjUsNyAxNi41LDciLz48L3N2Zz4="/>
         </view>
       </view>
-      <text class="welcome-text">欢迎使用 AI 聊天助手</text>
+      <text class="welcome-text">欢迎使用AI聊天助手</text>
       
       <button class="login-btn" @click="handleLogin">
         <tui-icon name="wechat" size="18" color="white" style="margin-right: 8px;"></tui-icon>
@@ -69,6 +72,13 @@ export default {
           }
         });
       }, 1000);
+    },
+    
+    // 返回上一页
+    goBack() {
+      uni.navigateBack({
+        delta: 1
+      });
     }
   }
 };
@@ -83,6 +93,32 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: #ffffff;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 56px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.back-icon {
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.back-button:active {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .login-content {
@@ -109,7 +145,7 @@ export default {
   justify-content: center;
   margin: 0 auto;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(74, 144, 226, 0.2);
+  box-shadow: 0 2px 6px #ffffff;
 }
 
 .fa-user {
@@ -128,23 +164,24 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #07C160; /* 微信绿 */
+  background-color: #07C160;
   color: white;
-  padding: 8px -5px;
-  border-radius: 40px;
+  padding: 0 12px;
+  height: 44px;
+  border-radius: 4px;
   border: none;
-  font-size: 19px;
+  font-size: 16px;
   font-weight: 500;
-  width: 60%;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  box-shadow: 0 2px 8px rgba(7, 193, 96, 0.3);
+  width: 85%;
+  margin: 16px auto;
+  box-shadow: none;
 }
 
 .login-btn:active {
-  transform: scale(0.98);
+  opacity: 0.9;
+  transform: none;
   background-color: #06ae56;
-  box-shadow: 0 4px 12px rgba(7, 193, 96, 0.4);
+  box-shadow: none;
 }
 
 .fa-wechat {
@@ -188,4 +225,12 @@ export default {
 .dark-mode .avatar {
   background-color: #444;
 }
-</style> 
+
+.dark-mode .back-button {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .back-icon {
+  color: #f0f0f0;
+}
+</style>

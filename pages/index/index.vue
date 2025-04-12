@@ -5,7 +5,7 @@
         <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNmZmUwYjIiIGQ9Ik0yNiwxNmMtMTAuNzQ3LDAtMTkuODk5LDMuNC0yNS44NTYsNi4zNzVDMC4wNTEsMjMuMDczLDAsMjMuNzgyLDAsMjQuNUMwLDM1LjI3LDEwLjc0NSw0NCwyNCw0NAlzMjQtOC43MywyNC0xOS41YzAtMS4zNi0wLjE3Mi0yLjY4Ny0wLjQ5OS0zLjk2OUM0MC40NDYsMTcuNTMzLDMzLjIxNywxNiwyNiwxNnoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5Yy0wLjAxNSwzLjc2NywyLjk0OCw3LjIzOSw2LjU3OSw3LjM3NmMzLjU4OCwwLjEzNiw1LjkyOC0zLjA2Niw1LjMyNi02Ljc4NgljLTAuNTQ2LTMuMzctMy4zNjQtNi4wMjItNi4zNjctNi4yMDFDMjYuNTA2LDE3LjgyOSwyNC4wMTQsMjAuMjEzLDI0LDIzLjYxOXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5YzAuMDE1LDMuNzY3LTIuOTQ0LDcuMjM5LTYuNTcxLDcuMzc2Yy0zLjU4MywwLjEzNi01LjkyMS0zLjA2Ni01LjMxOS02Ljc4NgljMC41NDUtMy4zNywzLjM1OS02LjAyMiw2LjM1OC02LjIwMUMyMS40OTgsMTcuODI5LDIzLjk4NiwyMC4yMTMsMjQsMjMuNjE5eiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjQiIHI9IjEiIGZpbGw9IiMyMTIxMjEiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjI0IiByPSIxIiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZmlsbD0iIzIxMjEyMSIgZD0iTTI0Ljc1NCw0MGMtMi43NSwwLTQuNzE5LTEuMTQ4LTQuODAyLTEuMTk3bDEuMDIxLTEuNzIxQzIwLjk4NSwzNy4wODksMjIuNTc1LDM4LDI0Ljc1NCwzOAljMS44MDUsMCwzLjI1My0wLjcyNCwzLjI2OC0wLjczMWwwLjkxMywxLjc4QzI4Ljg2LDM5LjA4NywyNy4wNjEsNDAsMjQuNzU0LDQweiIvPjxwYXRoIGZpbGw9IiMwMDk3YTciIGQ9Ik0wLjM2MSwyMS4xNTFjLTAuMDg2LDAuNDA0LTAuMTU3LDAuODExLTAuMjE0LDEuMjIzQzYuMTA0LDE5LjM5OSwxNS4yNTQsMTYsMjYsMTYJYzcuMjEsMCwxNC40MzMsMS41MzEsMjEuNDgzLDQuNTI0Yy0wLjExMi0wLjQxNi0wLjI0LTAuODI4LTAuMzc5LTEuMjM2Yy0wLjEwMi0wLjA0Mi0wLjIwNC0wLjA3Ni0wLjMwNS0wLjExNwljMC4yMDEsMC4wNjYsMC4zMjcsMC4xMDksMC4zMjcsMC4xMDlDNDQuMzE3LDExLjA0NiwzNS4wMjksNSwyNCw1QzEyLjE1MSw1LDIuMzEsMTEuOTc2LDAuMzU1LDIxLjE0OWMwLDAsMC4wODktMC4wNDIsMC4yNTQtMC4xMTUJQzAuNTI4LDIxLjA3MywwLjQ0MSwyMS4xMTIsMC4zNjEsMjEuMTUxeiIvPjxwYXRoIGZpbGw9IiNmZmVhMDAiIGQ9Ik00Ny43NTIsMjEuNzE1Yy0wLjE0Ni0wLjgyOS0wLjM3OC0xLjYzNS0wLjY0OC0yLjQyN0M0MC4xNzQsMTYuNDU0LDMzLjA4MywxNSwyNiwxNQljLTEwLjU0NCwwLTE5LjU3NywzLjIxMS0yNS42MzksNi4xNTFjLTAuMTY3LDAuNzg1LTAuMjg0LDEuNTg1LTAuMzMyLDIuMzk5QzYuNDEsMjAuMjgzLDE1LjQ0NiwxNywyNiwxNwlDMzQuNTYxLDE3LDQyLjAxNywxOS4yLDQ3Ljc1MiwyMS43MTV6Ii8+PHBvbHlnb24gZmlsbD0iI2ZmZWEwMCIgcG9pbnRzPSIxNiw2LjExIDE2LjgyNiw0LjQwOCAxOCw0IDIwLDMgMjMsMyAyNCwyIDI2LjA2MSwyLjM0NCAyNy41LDMuNSAyOS41LDQgMzAsNS42MTQgMjksNi41IDI3LDYgMjYsNyAyNC41LDcgMjMsNiAyMC41LDcgMjAsNS41IDE4LjUsNyAxNi41LDciLz48L3N2Zz4="/>
       </view>
       <view class="welcome-header">
-        <text class="welcome-title">AI聊天助手</text>
+        <text class="welcome-title">BQ AI ChatBot</text>
         <text class="welcome-subtitle">您的智能助手，随时解答问题，让生活更便捷</text>
       </view>
       
@@ -128,7 +128,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 8px;
   background-color: #ffffff;
   min-height: 100vh;
 }
@@ -151,10 +151,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #4A90E2;
+  background-color: #ffffff;
   color: white;
   border-radius: 50%;
-  box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
+  box-shadow: 0 4px 20px #ffffff;
 }
 
 .fa-comments {
@@ -187,9 +187,51 @@ export default {
 
 .feature-list {
   display: flex;
-  justify-content: center;
   gap: 20px;
   margin-bottom: 12px;
+  overflow-x: auto;
+  padding: 10px 5px;
+  position: relative;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.feature-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* 添加滑动提示动画 */
+.feature-list::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-right: 3px solid #4A90E2;
+  border-bottom: 3px solid #4A90E2;
+  transform: rotate(-45deg);
+  opacity: 0;
+  animation: slideHint 3s ease-in-out 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideHint {
+  0% {
+    transform: translateX(-10px) rotate(-45deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(0) rotate(-45deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-10px) rotate(-45deg);
+    opacity: 0;
+  }
 }
 
 .feature-item {
@@ -245,6 +287,12 @@ export default {
   margin-bottom: 15px;
   width: 100%;
   overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.quick-action-chips::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 .quick-action-chip {
@@ -268,6 +316,13 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.button-group::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 .start-button {
@@ -280,11 +335,12 @@ export default {
   font-weight: 600;
   box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
   margin-bottom: 10px;
+  transition: all 0.2s ease;
 }
 
 .start-button:active {
-  transform: scale(1.05);
-  box-shadow: 0 5px 20px rgba(74, 144, 226, 0.4);
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
 }
 
 .login-button {
@@ -295,7 +351,14 @@ export default {
   margin-top: -13px;
   border-radius: 100px;
   padding: 5px 64px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
 
+.login-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  background-color: #f5f5f5;
 }
 
 /* 深色模式样式 */
@@ -337,4 +400,4 @@ export default {
 .dark-mode .login-button {
   color: #aaa;
 }
-</style> 
+</style>

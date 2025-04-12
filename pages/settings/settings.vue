@@ -3,7 +3,7 @@
     <!-- 顶部导航栏 -->
     <view class="settings-header">
       <view class="history-back" @click="goBack">
-        <text class="fa fa-arrow-left"></text>
+        <tui-icon name="arrowleft"></tui-icon>
       </view>
       <view class="settings-title">设置</view>
       <view style="width: 36px;"></view> <!-- 为了标题居中的占位元素 -->
@@ -365,7 +365,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 20px;
+  padding: 60px 20px;
   background-color: var(--primary-color);
   color: white;
 }
@@ -382,9 +382,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  background-color: var(--primary-color);
+  transition: all 0.2s ease;
 }
+
 
 .history-back:active {
   background-color: rgba(255, 255, 255, 0.3);
@@ -530,14 +531,15 @@ input:checked + .settings-slider:before {
 .settings-button {
   display: block;
   width: calc(100% - 40px);
-  margin: 20px auto;
+  margin: -5px auto;
+  margin-top: 6%;
   padding: 12px 0;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 100px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s;

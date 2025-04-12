@@ -32,8 +32,11 @@
             <view class="message-avatar">
         <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNmZmUwYjIiIGQ9Ik0yNiwxNmMtMTAuNzQ3LDAtMTkuODk5LDMuNC0yNS44NTYsNi4zNzVDMC4wNTEsMjMuMDczLDAsMjMuNzgyLDAsMjQuNUMwLDM1LjI3LDEwLjc0NSw0NCwyNCw0NAlzMjQtOC43MywyNC0xOS41YzAtMS4zNi0wLjE3Mi0yLjY4Ny0wLjQ5OS0zLjk2OUM0MC40NDYsMTcuNTMzLDMzLjIxNywxNiwyNiwxNnoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5Yy0wLjAxNSwzLjc2NywyLjk0OCw3LjIzOSw2LjU3OSw3LjM3NmMzLjU4OCwwLjEzNiw1LjkyOC0zLjA2Niw1LjMyNi02Ljc4NgljLTAuNTQ2LTMuMzctMy4zNjQtNi4wMjItNi4zNjctNi4yMDFDMjYuNTA2LDE3LjgyOSwyNC4wMTQsMjAuMjEzLDI0LDIzLjYxOXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5YzAuMDE1LDMuNzY3LTIuOTQ0LDcuMjM5LTYuNTcxLDcuMzc2Yy0zLjU4MywwLjEzNi01LjkyMS0zLjA2Ni01LjMxOS02Ljc4NgljMC41NDUtMy4zNywzLjM1OS02LjAyMiw2LjM1OC02LjIwMUMyMS40OTgsMTcuODI5LDIzLjk4NiwyMC4yMTMsMjQsMjMuNjE5eiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjQiIHI9IjEiIGZpbGw9IiMyMTIxMjEiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjI0IiByPSIxIiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZmlsbD0iIzIxMjEyMSIgZD0iTTI0Ljc1NCw0MGMtMi43NSwwLTQuNzE5LTEuMTQ4LTQuODAyLTEuMTk3bDEuMDIxLTEuNzIxQzIwLjk4NSwzNy4wODksMjIuNTc1LDM4LDI0Ljc1NCwzOAljMS44MDUsMCwzLjI1My0wLjcyNCwzLjI2OC0wLjczMWwwLjkxMywxLjc4QzI4Ljg2LDM5LjA4NywyNy4wNjEsNDAsMjQuNzU0LDQweiIvPjxwYXRoIGZpbGw9IiMwMDk3YTciIGQ9Ik0wLjM2MSwyMS4xNTFjLTAuMDg2LDAuNDA0LTAuMTU3LDAuODExLTAuMjE0LDEuMjIzQzYuMTA0LDE5LjM5OSwxNS4yNTQsMTYsMjYsMTYJYzcuMjEsMCwxNC40MzMsMS41MzEsMjEuNDgzLDQuNTI0Yy0wLjExMi0wLjQxNi0wLjI0LTAuODI4LTAuMzc5LTEuMjM2Yy0wLjEwMi0wLjA0Mi0wLjIwNC0wLjA3Ni0wLjMwNS0wLjExNwljMC4yMDEsMC4wNjYsMC4zMjcsMC4xMDksMC4zMjcsMC4xMDlDNDQuMzE3LDExLjA0NiwzNS4wMjksNSwyNCw1QzEyLjE1MSw1LDIuMzEsMTEuOTc2LDAuMzU1LDIxLjE0OWMwLDAsMC4wODktMC4wNDIsMC4yNTQtMC4xMTUJQzAuNTI4LDIxLjA3MywwLjQ0MSwyMS4xMTIsMC4zNjEsMjEuMTUxeiIvPjxwYXRoIGZpbGw9IiNmZmVhMDAiIGQ9Ik00Ny43NTIsMjEuNzE1Yy0wLjE0Ni0wLjgyOS0wLjM3OC0xLjYzNS0wLjY0OC0yLjQyN0M0MC4xNzQsMTYuNDU0LDMzLjA4MywxNSwyNiwxNQljLTEwLjU0NCwwLTE5LjU3NywzLjIxMS0yNS42MzksNi4xNTFjLTAuMTY3LDAuNzg1LTAuMjg0LDEuNTg1LTAuMzMyLDIuMzk5QzYuNDEsMjAuMjgzLDE1LjQ0NiwxNywyNiwxNwlDMzQuNTYxLDE3LDQyLjAxNywxOS4yLDQ3Ljc1MiwyMS43MTV6Ii8+PHBvbHlnb24gZmlsbD0iI2ZmZWEwMCIgcG9pbnRzPSIxNiw2LjExIDE2LjgyNiw0LjQwOCAxOCw0IDIwLDMgMjMsMyAyNCwyIDI2LjA2MSwyLjM0NCAyNy41LDMuNSAyOS41LDQgMzAsNS42MTQgMjksNi41IDI3LDYgMjYsNyAyNC41LDcgMjMsNiAyMC41LDcgMjAsNS41IDE4LjUsNyAxNi41LDciLz48L3N2Zz4="/>
             </view>
-            <view class="message message-ai">
+            <view class="message message-ai" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
               <text>{{message.content}}</text>
+              <tui-alert  :show="showModal" size="30"  btnColor="#3b3b3b" btnText = "复制" maskClosable @click="copyContent(message.content)" @cancel="hideAlert">
+              {{message.content}}
+              </tui-alert>
             </view>
           </view>
           <view class="message-time">{{message.time}}</view>
@@ -57,7 +60,7 @@
       <view class="message-container ai" v-if="isThinking" id="thinking-msg">
         <view class="message-row">
           <view class="message-avatar">
-            <text class="fa fa-robot"></text>
+                    <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNmZmUwYjIiIGQ9Ik0yNiwxNmMtMTAuNzQ3LDAtMTkuODk5LDMuNC0yNS44NTYsNi4zNzVDMC4wNTEsMjMuMDczLDAsMjMuNzgyLDAsMjQuNUMwLDM1LjI3LDEwLjc0NSw0NCwyNCw0NAlzMjQtOC43MywyNC0xOS41YzAtMS4zNi0wLjE3Mi0yLjY4Ny0wLjQ5OS0zLjk2OUM0MC40NDYsMTcuNTMzLDMzLjIxNywxNiwyNiwxNnoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5Yy0wLjAxNSwzLjc2NywyLjk0OCw3LjIzOSw2LjU3OSw3LjM3NmMzLjU4OCwwLjEzNiw1LjkyOC0zLjA2Niw1LjMyNi02Ljc4NgljLTAuNTQ2LTMuMzctMy4zNjQtNi4wMjItNi4zNjctNi4yMDFDMjYuNTA2LDE3LjgyOSwyNC4wMTQsMjAuMjEzLDI0LDIzLjYxOXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5YzAuMDE1LDMuNzY3LTIuOTQ0LDcuMjM5LTYuNTcxLDcuMzc2Yy0zLjU4MywwLjEzNi01LjkyMS0zLjA2Ni01LjMxOS02Ljc4NgljMC41NDUtMy4zNywzLjM1OS02LjAyMiw2LjM1OC02LjIwMUMyMS40OTgsMTcuODI5LDIzLjk4NiwyMC4yMTMsMjQsMjMuNjE5eiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjQiIHI9IjEiIGZpbGw9IiMyMTIxMjEiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjI0IiByPSIxIiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZmlsbD0iIzIxMjEyMSIgZD0iTTI0Ljc1NCw0MGMtMi43NSwwLTQuNzE5LTEuMTQ4LTQuODAyLTEuMTk3bDEuMDIxLTEuNzIxQzIwLjk4NSwzNy4wODksMjIuNTc1LDM4LDI0Ljc1NCwzOAljMS44MDUsMCwzLjI1My0wLjcyNCwzLjI2OC0wLjczMWwwLjkxMywxLjc4QzI4Ljg2LDM5LjA4NywyNy4wNjEsNDAsMjQuNzU0LDQweiIvPjxwYXRoIGZpbGw9IiMwMDk3YTciIGQ9Ik0wLjM2MSwyMS4xNTFjLTAuMDg2LDAuNDA0LTAuMTU3LDAuODExLTAuMjE0LDEuMjIzQzYuMTA0LDE5LjM5OSwxNS4yNTQsMTYsMjYsMTYJYzcuMjEsMCwxNC40MzMsMS41MzEsMjEuNDgzLDQuNTI0Yy0wLjExMi0wLjQxNi0wLjI0LTAuODI4LTAuMzc5LTEuMjM2Yy0wLjEwMi0wLjA0Mi0wLjIwNC0wLjA3Ni0wLjMwNS0wLjExNwljMC4yMDEsMC4wNjYsMC4zMjcsMC4xMDksMC4zMjcsMC4xMDlDNDQuMzE3LDExLjA0NiwzNS4wMjksNSwyNCw1QzEyLjE1MSw1LDIuMzEsMTEuOTc2LDAuMzU1LDIxLjE0OWMwLDAsMC4wODktMC4wNDIsMC4yNTQtMC4xMTUJQzAuNTI4LDIxLjA3MywwLjQ0MSwyMS4xMTIsMC4zNjEsMjEuMTUxeiIvPjxwYXRoIGZpbGw9IiNmZmVhMDAiIGQ9Ik00Ny43NTIsMjEuNzE1Yy0wLjE0Ni0wLjgyOS0wLjM3OC0xLjYzNS0wLjY0OC0yLjQyN0M0MC4xNzQsMTYuNDU0LDMzLjA4MywxNSwyNiwxNQljLTEwLjU0NCwwLTE5LjU3NywzLjIxMS0yNS42MzksNi4xNTFjLTAuMTY3LDAuNzg1LTAuMjg0LDEuNTg1LTAuMzMyLDIuMzk5QzYuNDEsMjAuMjgzLDE1LjQ0NiwxNywyNiwxNwlDMzQuNTYxLDE3LDQyLjAxNywxOS4yLDQ3Ljc1MiwyMS43MTV6Ii8+PHBvbHlnb24gZmlsbD0iI2ZmZWEwMCIgcG9pbnRzPSIxNiw2LjExIDE2LjgyNiw0LjQwOCAxOCw0IDIwLDMgMjMsMyAyNCwyIDI2LjA2MSwyLjM0NCAyNy41LDMuNSAyOS41LDQgMzAsNS42MTQgMjksNi41IDI3LDYgMjYsNyAyNC41LDcgMjMsNiAyMC41LDcgMjAsNS41IDE4LjUsNyAxNi41LDciLz48L3N2Zz4="/>
           </view>
           <view class="message message-ai thinking">
             <text>正在思考</text>
@@ -82,7 +85,7 @@
       :style="{ transform: isKeyboardShow ? 'translateY(-' + keyboardHeight + 'px)' : 'translateY(0)' }"
     >
       <!-- 提示词区域 -->
-      <view class="suggestion-area" v-if="showSuggestions">
+      <view class="suggestion-area" v-show="showSuggestions">
         <view class="suggestion-title">你可以这样问我</view>
         <view class="suggestion-chips">
           <view 
@@ -95,7 +98,7 @@
           </view>
         </view>
         <view class="ai-intro">
-          <text class="intro-title">AI助手介绍：</text>
+          <text class="intro-title">友情提示：</text>
           <text class="intro-content">我是一个智能AI助手，可以回答问题、提供信息、写作、规划行程、提供建议等。我会不断学习和改进，为您提供更好的服务体验。请注意，我偶尔可能会出现错误，对于专业领域的问题请谨慎参考。</text>
         </view>
       </view>
@@ -172,11 +175,27 @@ export default {
       },
       
       // 底部输入区域高度
-      bottomHeight: 130
+      bottomHeight: 130,
+
+      lastTapTime: 0,
+      showModal: false,
     };
   },
   
   onLoad() {
+    // 获取预设问题
+    const globalData = getApp().globalData;
+    if (globalData && globalData.presetQuestion) {
+      // 设置输入内容
+      this.inputMessage = globalData.presetQuestion;
+      // 自动发送消息
+      this.$nextTick(() => {
+        this.sendMessage();
+      });
+      // 清除预设问题
+      globalData.presetQuestion = '';
+    }
+
     // 检查用户信息，如果没有则使用默认值
     try {
       const userInfoStr = uni.getStorageSync('userInfo');
@@ -235,6 +254,30 @@ export default {
   },
   
   methods: {
+    handleTouchStart(e) {
+      const currentTime = new Date().getTime();
+      const timeDiff = currentTime - this.lastTapTime;
+      if (timeDiff < 300 && timeDiff > 0) {
+        this.showModal = true;
+      }
+      this.lastTapTime = currentTime;
+    },
+    handleTouchEnd() {
+      // 这里可以处理手势结束，如果有需要
+    },
+    copyContent(message) {
+      uni.setClipboardData({
+        data: message,
+        success: () => {
+          uni.showToast({
+            title: '复制成功',
+            icon: 'success'
+          });
+          this.showModal = false;
+        }
+      });
+    },
+
     /**
      * 监听键盘高度变化
      */
@@ -403,12 +446,17 @@ export default {
       query.select('.chat-content').boundingClientRect();
       query.exec(res => {
         if (res && res[0]) {
-          // 使用一个足够大的值确保滚动到底部
+          // 设置滚动到最新消息，并预留底部空间
           this.scrollTop = 100000;
           
-          // 设置滚动到最新消息
+          // 设置滚动到最新消息，并预留20px的底部空间
           if (this.messageList.length > 0) {
             this.scrollToView = 'msg-' + (this.messageList.length - 1);
+            // 添加20px的底部padding，确保时间显示完整
+            const chatContent = document.querySelector('.chat-content');
+            if (chatContent) {
+              chatContent.style.paddingBottom = '1000px';
+            }
           }
           
           // 强制更新DOM
@@ -507,7 +555,7 @@ export default {
   left: 0;
   right: 0;
   z-index: 10;
-  height: 50px;
+  height: 30px;
 }
 
 .back-btn {
@@ -552,6 +600,7 @@ export default {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   position: relative;
+  padding-bottom: 20px; /* 添加底部padding，确保时间显示完整 */
 }
 
 .day-divider {
@@ -579,7 +628,9 @@ export default {
 .day-divider::after {
   right: 0;
 }
-
+.tui-alert-mask {
+  background-color: rgba(0, 0, 0, 0.1);
+}
 /* 消息容器 */
 .message-container {
   display: flex;
@@ -636,14 +687,14 @@ export default {
 }
 
 .message {
-  max-width: 85%;
+  max-width: 66%;
   padding: var(--spacing-md) var(--spacing-lg);
   border-radius: var(--border-radius-lg);
   position: relative;
   word-break: break-word;
   font-size: var(--font-size-md);
   line-height: 1.5;
-  box-shadow: var(--shadow-light);
+  box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.08), -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
   margin-top: 0; /* 确保没有顶部边距 */
 }
 
@@ -653,6 +704,7 @@ export default {
   margin: var(--spacing-xs) var(--spacing-sm);
   line-height: 1;
   clear: both; /* 确保时间显示不受浮动影响 */
+  border: 1px;
 }
 
 .message-ai {
@@ -665,6 +717,7 @@ export default {
   background-color: var(--primary-color);
   color: white;
   border-bottom-right-radius: 4px;
+
 }
 
 /* 底部输入区域 */
@@ -778,19 +831,29 @@ export default {
 
 .suggestion-chips {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.suggestion-chips::-webkit-scrollbar {
+  display: none;
 }
 
 .suggestion-chip {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-sm);
-  color: var(--text-color);
+  color: #4b90e2;
+  font-weight: 500;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .suggestion-chip:active {
@@ -915,4 +978,4 @@ export default {
     padding: 3px var(--spacing-sm);
   }
 }
-</style> 
+</style>

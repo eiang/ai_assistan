@@ -43,13 +43,6 @@
         "navigationBarTextStyle": "white",
         "navigationStyle": "custom"
       }
-    },
-    {
-      "path": "pages/welcome/welcome",
-      "style": {
-        "navigationBarTitleText": "欢迎",
-        "navigationStyle": "custom"
-      }
     }
   ],
   "globalStyle": {
