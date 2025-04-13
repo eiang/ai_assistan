@@ -62,3 +62,4 @@ project.private.config.json
 .gitlab-ci.yml
 .drone.yml
 .circleci/ 
+api_documentation.md

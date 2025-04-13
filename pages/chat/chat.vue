@@ -34,7 +34,7 @@
             </view>
             <view class="message message-ai" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
               <text>{{message.content}}</text>
-              <tui-alert  :show="showModal" size="30"  btnColor="#3b3b3b" btnText = "复制" maskClosable @click="copyContent(message.content)" @cancel="hideAlert">
+              <tui-alert  :show="showModal" size="30"  btnColor="#3b3b3b" btnText = "复制" maskClosable="false" @click="copyContent(message.content)" @cancel="hideAlert">
               {{message.content}}
               </tui-alert>
             </view>
@@ -254,6 +254,9 @@ export default {
   },
   
   methods: {
+  	hideAlert() {
+ 		this.showModal = false
+ 	  },
     handleTouchStart(e) {
       const currentTime = new Date().getTime();
       const timeDiff = currentTime - this.lastTapTime;
@@ -449,14 +452,9 @@ export default {
           // 设置滚动到最新消息，并预留底部空间
           this.scrollTop = 100000;
           
-          // 设置滚动到最新消息，并预留20px的底部空间
+          // 设置滚动到最新消息，并预留底部空间
           if (this.messageList.length > 0) {
             this.scrollToView = 'msg-' + (this.messageList.length - 1);
-            // 添加20px的底部padding，确保时间显示完整
-            const chatContent = document.querySelector('.chat-content');
-            if (chatContent) {
-              chatContent.style.paddingBottom = '1000px';
-            }
           }
           
           // 强制更新DOM
