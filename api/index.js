@@ -1,12 +1,13 @@
 import request from '../utils/request'
+import envConfig from '../utils/env-config'
 
-// 基础URL
-const BASE_URL = 'http://localhost:8000'
+// 获取环境配置中的存储键和其他信息
+const { API_BASE_URL, STORAGE_KEYS } = envConfig;
 
 // 请求拦截器
 const requestInterceptor = (config) => {
   // 添加token到请求头
-  const token = uni.getStorageSync('token')
+  const token = uni.getStorageSync(STORAGE_KEYS.TOKEN)
   if (token) {
     config.header = {
       ...config.header,
@@ -37,8 +38,8 @@ const responseInterceptor = (response) => {
   
   // 处理401未授权
   if (statusCode === 401) {
-    uni.removeStorageSync('token')
-    uni.removeStorageSync('userInfo')
+    uni.removeStorageSync(STORAGE_KEYS.TOKEN)
+    uni.removeStorageSync(STORAGE_KEYS.USER_INFO)
     uni.reLaunch({
       url: '/pages/login/login'
     })
@@ -121,7 +122,7 @@ export const authApi = {
   // 微信登录
   wechatLogin(data) {
     return request({
-      url: `${BASE_URL}/auth/wechat-login`,
+      url: `/auth/wechat-login`,
       method: 'POST',
       data: {
         code: data.code,
@@ -139,7 +140,7 @@ export const authApi = {
   // 退出登录
   logout() {
     return request({
-      url: `${BASE_URL}/auth/logout`,
+      url: `/auth/logout`,
       method: 'POST'
     }, requestInterceptor, responseInterceptor)
   }
@@ -150,7 +151,7 @@ export const userApi = {
   // 获取用户信息
   getUserInfo() {
     return request({
-      url: `${BASE_URL}/user/info`,
+      url: `/user/info`,
       method: 'GET'
     }, requestInterceptor, responseInterceptor)
   },
@@ -158,7 +159,7 @@ export const userApi = {
   // 更新用户设置
   updateUserSettings(settings) {
     return request({
-      url: `${BASE_URL}/user/settings`,
+      url: `/user/settings`,
       method: 'PUT',
       data: settings
     }, requestInterceptor, responseInterceptor)
@@ -170,7 +171,7 @@ export const chatApi = {
   // 发送消息
   sendMessage(data) {
     return request({
-      url: `${BASE_URL}/chat/message`,
+      url: `/chat/message`,
       method: 'POST',
       data: {
         content: data.content,
@@ -182,7 +183,7 @@ export const chatApi = {
   // 获取聊天历史
   getHistory(params) {
     return request({
-      url: `${BASE_URL}/chat/history`,
+      url: `/chat/history`,
       method: 'GET',
       data: params
     }, requestInterceptor, responseInterceptor)
@@ -191,7 +192,7 @@ export const chatApi = {
   // 清除聊天历史
   clearHistory() {
     return request({
-      url: `${BASE_URL}/chat/history`,
+      url: `/chat/history`,
       method: 'DELETE'
     }, requestInterceptor, responseInterceptor)
   }
@@ -203,11 +204,11 @@ export const aiApi = {
   speechToText(file) {
     return new Promise((resolve, reject) => {
       uni.uploadFile({
-        url: `${BASE_URL}/ai/speech-to-text`,
+        url: `${API_BASE_URL}/ai/speech-to-text`,
         filePath: file,
         name: 'audio',
         header: {
-          'Authorization': `Bearer ${uni.getStorageSync('token')}`
+          'Authorization': `Bearer ${uni.getStorageSync(STORAGE_KEYS.TOKEN)}`
         },
         success: (res) => {
           if (res.statusCode === 200) {
