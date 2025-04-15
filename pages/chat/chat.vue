@@ -198,9 +198,24 @@ export default {
 
     // 检查用户信息，如果没有则使用默认值
     try {
-      const userInfoStr = uni.getStorageSync('userInfo');
-      if (userInfoStr) {
-        this.userInfo = JSON.parse(userInfoStr);
+      const userInfoData = uni.getStorageSync('userInfo');
+      if (userInfoData) {
+        // 检查是否需要解析
+        if (typeof userInfoData === 'string') {
+          try {
+            this.userInfo = JSON.parse(userInfoData);
+          } catch (e) {
+            console.error('解析用户信息字符串失败', e);
+            this.userInfo = {
+              nickName: '游客',
+              avatar: '',
+              openid: 'guest_' + Math.random().toString(36).substr(2, 10)
+            };
+          }
+        } else {
+          // 已经是对象，直接使用
+          this.userInfo = userInfoData;
+        }
       } else {
         // 未登录用户使用默认信息
         this.userInfo = {

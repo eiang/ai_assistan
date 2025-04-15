@@ -9,119 +9,67 @@
       <view style="width: 36px;"></view> <!-- 为了标题居中的占位元素 -->
     </view>
     
-    <!-- 用户信息 -->
-    <view class="settings-user-header">
-      <view class="settings-avatar">
-        <text class="fa fa-user"></text>
-      </view>
-      <view class="settings-user-info">
-        <view class="settings-username">{{ userInfo.nickName || '未登录' }}</view>
-        <view class="settings-userid">{{ userInfo.openid ? '微信ID: ' + userInfo.openid : '游客模式' }}</view>
+    <!-- 用户信息卡片 -->
+    <view class="user-card">
+      <image class="avatar" :src="userInfo.avatar || '/static/default-avatar.png'" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="nickname">{{ userInfo.nickName || '未登录' }}</text>
+        <text class="id">ID: {{ userInfo.id || '--' }}</text>
       </view>
     </view>
     
-    <!-- 设置项列表 -->
+    <!-- 设置列表 -->
     <view class="settings-list">
       <!-- 深色模式 -->
-      <view class="settings-item">
-        <view class="settings-item-left">
-          <view class="settings-item-icon">
-            <text class="fa fa-moon-o"></text>
-          </view>
-          <view class="settings-item-title">深色模式</view>
-        </view>
-        <view class="settings-item-right">
-          <label class="settings-switch">
-            <input type="checkbox" :checked="isDarkMode" @change="toggleDarkMode">
-            <span class="settings-slider"></span>
-          </label>
-        </view>
+      <view class="settings-item" @click="toggleDarkMode">
+        <text class="item-label">深色模式</text>
+        <switch :checked="isDarkMode" @change="toggleDarkMode" color="#007AFF" />
       </view>
       
       <!-- 语音播报 -->
-      <view class="settings-item">
-        <view class="settings-item-left">
-          <view class="settings-item-icon">
-            <text class="fa fa-volume-up"></text>
-          </view>
-          <view class="settings-item-title">语音播报</view>
-        </view>
-        <view class="settings-item-right">
-          <label class="settings-switch">
-            <input type="checkbox" :checked="autoRead" @change="toggleAutoRead">
-            <span class="settings-slider"></span>
-          </label>
-        </view>
+      <view class="settings-item" @click="toggleVoiceBroadcast">
+        <text class="item-label">语音播报</text>
+        <switch :checked="isVoiceBroadcast" @change="toggleVoiceBroadcast" color="#007AFF" />
       </view>
       
       <!-- 保存聊天记录 -->
-      <view class="settings-item">
-        <view class="settings-item-left">
-          <view class="settings-item-icon">
-            <text class="fa fa-save"></text>
-          </view>
-          <view class="settings-item-title">保存聊天记录</view>
-        </view>
-        <view class="settings-item-right">
-          <label class="settings-switch">
-            <input type="checkbox" :checked="saveHistory" @change="toggleSaveHistory">
-            <span class="settings-slider"></span>
-          </label>
-        </view>
+      <view class="settings-item" @click="toggleSaveHistory">
+        <text class="item-label">保存聊天记录</text>
+        <switch :checked="isSaveHistory" @change="toggleSaveHistory" color="#007AFF" />
       </view>
       
-      <!-- 历史记录 -->
-      <view class="settings-item" @tap="goToHistory">
-        <view class="settings-item-left">
-          <view class="settings-item-icon">
-            <text class="fa fa-history"></text>
-          </view>
-          <view class="settings-item-title">历史记录</view>
-        </view>
-        <view class="settings-item-right">
-          <view class="settings-item-arrow">
-            <text class="fa fa-angle-right"></text>
-          </view>
-        </view>
+      <!-- 聊天记录 -->
+      <view class="settings-item" @click="navigateToHistory">
+        <text class="item-label">聊天记录</text>
+        <text class="item-arrow">></text>
       </view>
       
-      <!-- 关于我们 -->
-      <view class="settings-item" @tap="showAboutInfo">
-        <view class="settings-item-left">
-          <view class="settings-item-icon">
-            <text class="fa fa-info-circle"></text>
-          </view>
-          <view class="settings-item-title">关于我们</view>
-        </view>
-        <view class="settings-item-right">
-          <view class="settings-item-arrow">
-            <text class="fa fa-angle-right"></text>
-          </view>
-        </view>
+      <!-- 关于 -->
+      <view class="settings-item" @click="showAbout">
+        <text class="item-label">关于</text>
+        <text class="item-arrow">></text>
       </view>
     </view>
     
-    <!-- 底部按钮 -->
-    <button class="settings-button danger" @tap="clearChatHistory">清空聊天记录</button>
-    
-    <button v-if="userInfo.openid" class="settings-button" @tap="handleLogout">退出登录</button>
-    <button v-else class="settings-button" @tap="goToLogin">去登录</button>
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="clear-btn" @click="clearChatHistory">清除聊天记录</button>
+      <button class="logout-btn" @click="handleLogout">退出登录</button>
+    </view>
   </view>
 </template>
 
 <script>
+import { authApi } from '../../api/index'
+
 export default {
   data() {
     return {
+      userInfo: {},
       isDarkMode: false,
-      autoRead: false,
-      saveHistory: true,
-      userInfo: {
-        nickName: '',
-        avatar: '',
-        openid: ''
-      }
-    };
+      isVoiceBroadcast: true,
+      isSaveHistory: true
+    }
   },
   
   onLoad() {
@@ -155,9 +103,19 @@ export default {
      */
     loadUserInfo() {
       try {
-        const userInfoStr = uni.getStorageSync('userInfo');
-        if (userInfoStr) {
-          this.userInfo = JSON.parse(userInfoStr);
+        const userInfoData = uni.getStorageSync('userInfo');
+        if (userInfoData) {
+          // 检查userInfoData是否已经是对象
+          if (typeof userInfoData === 'string') {
+            try {
+              this.userInfo = JSON.parse(userInfoData);
+            } catch (e) {
+              console.error('解析用户信息字符串失败', e);
+            }
+          } else {
+            // 已经是对象，直接使用
+            this.userInfo = userInfoData;
+          }
         }
       } catch (e) {
         console.error('获取用户信息失败', e);
@@ -169,19 +127,10 @@ export default {
      */
     loadSettings() {
       try {
-        const autoReadStr = uni.getStorageSync('autoRead');
-        if (autoReadStr !== '') {
-          this.autoRead = autoReadStr === 'true';
-        }
-        
-        const saveHistoryStr = uni.getStorageSync('saveHistory');
-        if (saveHistoryStr !== '') {
-          this.saveHistory = saveHistoryStr === 'true';
-        } else {
-          // 默认开启保存聊天记录
-          this.saveHistory = true;
-          uni.setStorageSync('saveHistory', 'true');
-        }
+        const settings = uni.getStorageSync('settings') || {};
+        this.isDarkMode = settings.isDarkMode || false;
+        this.isVoiceBroadcast = settings.isVoiceBroadcast !== false;
+        this.isSaveHistory = settings.isSaveHistory !== false;
       } catch (e) {
         console.error('获取设置失败', e);
       }
@@ -190,79 +139,70 @@ export default {
     /**
      * 切换深色模式
      */
-    toggleDarkMode(e) {
-      const isDarkMode = e.detail.value;
-      this.isDarkMode = isDarkMode;
-      
-      // 更新全局设置
-      getApp().globalData.isDarkMode = isDarkMode;
-      
-      // 保存到本地存储
-      uni.setStorageSync('isDarkMode', isDarkMode.toString());
-      
-      // 应用深色模式
-      if (isDarkMode) {
-        // 为body添加深色模式类
-        // #ifdef H5
-        document.body.classList.add('dark-mode');
-        // #endif
-        
-        // 设置TabBar样式
-        uni.setTabBarStyle({
-          backgroundColor: '#222',
-          borderStyle: 'black',
-          color: '#8F8F8F',
-          selectedColor: '#4A90E2'
-        });
-      } else {
-        // 移除深色模式类
-        // #ifdef H5
-        document.body.classList.remove('dark-mode');
-        // #endif
-        
-        // 恢复TabBar样式
-        uni.setTabBarStyle({
-          backgroundColor: '#ffffff',
-          borderStyle: 'black',
-          color: '#8F8F8F',
-          selectedColor: '#4A90E2'
-        });
-      }
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      this.saveSettings();
+      this.applyTheme();
     },
     
     /**
      * 切换语音播报
      */
-    toggleAutoRead(e) {
-      this.autoRead = e.detail.value;
-      uni.setStorageSync('autoRead', this.autoRead.toString());
+    toggleVoiceBroadcast() {
+      this.isVoiceBroadcast = !this.isVoiceBroadcast;
+      this.saveSettings();
     },
     
     /**
      * 切换保存聊天记录
      */
-    toggleSaveHistory(e) {
-      this.saveHistory = e.detail.value;
-      uni.setStorageSync('saveHistory', this.saveHistory.toString());
+    toggleSaveHistory() {
+      this.isSaveHistory = !this.isSaveHistory;
+      this.saveSettings();
     },
     
     /**
-     * 清空聊天记录
+     * 保存设置
+     */
+    saveSettings() {
+      uni.setStorageSync('settings', {
+        isDarkMode: this.isDarkMode,
+        isVoiceBroadcast: this.isVoiceBroadcast,
+        isSaveHistory: this.isSaveHistory
+      });
+    },
+    
+    /**
+     * 应用主题
+     */
+    applyTheme() {
+      if (this.isDarkMode) {
+        uni.setTabBarStyle({
+          backgroundColor: '#1C1C1E',
+          color: '#FFFFFF',
+          selectedColor: '#007AFF'
+        });
+      } else {
+        uni.setTabBarStyle({
+          backgroundColor: '#FFFFFF',
+          color: '#000000',
+          selectedColor: '#007AFF'
+        });
+      }
+    },
+    
+    /**
+     * 清除聊天记录
      */
     clearChatHistory() {
       uni.showModal({
-        title: '确认清空',
-        content: '确定要清空所有聊天记录吗？此操作不可恢复。',
-        confirmColor: '#E74C3C',
+        title: '提示',
+        content: '确定要清除所有聊天记录吗？',
         success: (res) => {
           if (res.confirm) {
-            // 清空聊天记录逻辑
-            // 实际开发中需要调用API或清空本地存储
             uni.removeStorageSync('chatHistory');
-            
-            // 显示提示
             uni.showToast({
-              title: '聊天记录已清空',
+              title: '聊天记录已清除',
               icon: 'success'
             });
           }
@@ -271,63 +211,44 @@ export default {
     },
     
     /**
-     * 显示关于我们信息
+     * 显示关于信息
      */
-    showAboutInfo() {
+    showAbout() {
       uni.showModal({
-        title: '关于我们',
-        content: 'AI聊天助手 v1.0.0\n\n我们致力于提供智能、便捷的AI对话服务，帮助用户解决日常问题，提升工作效率。',
-        showCancel: false,
-        confirmText: '知道了'
+        title: '关于',
+        content: 'AI聊天助手 v1.0.0\n\n一个智能的对话伙伴，随时解答您的问题。',
+        showCancel: false
       });
     },
     
     /**
-     * 跳转到历史记录页面
+     * 跳转到聊天记录页面
      */
-    goToHistory() {
+    navigateToHistory() {
       uni.navigateTo({
         url: '/pages/history/history'
       });
     },
     
     /**
-     * 退出登录
+     * 处理退出登录
      */
-    handleLogout() {
-      uni.showModal({
-        title: '确认退出',
-        content: '确定要退出登录吗？',
-        success: (res) => {
-          if (res.confirm) {
-            // 清除用户信息
-            uni.removeStorageSync('userInfo');
-            this.userInfo = {
-              nickName: '',
-              avatar: '',
-              openid: ''
-            };
-            
-            // 更新全局数据
-            getApp().globalData.userInfo = null;
-            
-            // 显示提示
-            uni.showToast({
-              title: '已退出登录',
-              icon: 'success'
-            });
-          }
-        }
-      });
-    },
-    
-    /**
-     * 跳转到登录页面
-     */
-    goToLogin() {
-      uni.navigateTo({
-        url: '/pages/login/login'
-      });
+    async handleLogout() {
+      try {
+        await authApi.logout();
+        // 清除本地存储
+        uni.removeStorageSync('token');
+        uni.removeStorageSync('userInfo');
+        // 跳转到登录页
+        uni.reLaunch({
+          url: '/pages/login/login'
+        });
+      } catch (error) {
+        uni.showToast({
+          title: '退出登录失败',
+          icon: 'none'
+        });
+      }
     },
     
     /**
@@ -386,227 +307,119 @@ export default {
   transition: all 0.2s ease;
 }
 
-
 .history-back:active {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* 用户信息 */
-.settings-user-header {
+/* 用户信息卡片 */
+.user-card {
   display: flex;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #eaeaea;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.settings-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background-color: var(--light-gray);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
   margin-right: 15px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(74, 144, 226, 0.2);
 }
 
-.settings-avatar .fa {
-  font-size: 32px;
-  color: var(--primary-color);
-}
-
-.settings-user-info {
+.user-info {
   flex: 1;
 }
 
-.settings-username {
+.nickname {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
+  color: #333333;
   margin-bottom: 4px;
-  color: var(--text-color);
 }
 
-.settings-userid {
-  font-size: 12px;
-  color: #999;
+.id {
+  font-size: 14px;
+  color: #999999;
 }
 
-/* 设置项列表 */
+/* 设置列表 */
 .settings-list {
-  list-style: none;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .settings-item {
-  padding: 16px 20px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-}
-
-.settings-item:active {
-  background-color: var(--light-gray);
-}
-
-.settings-item-left {
-  display: flex;
   align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #F5F5F5;
 }
 
-.settings-item-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  color: var(--primary-color);
+.settings-item:last-child {
+  border-bottom: none;
 }
 
-.settings-item-title {
-  font-size: 15px;
-  color: var(--text-color);
+.item-label {
+  font-size: 16px;
+  color: #333333;
 }
 
-.settings-item-right {
-  display: flex;
-  align-items: center;
-}
-
-/* 开关样式 */
-.settings-switch {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-}
-
-.settings-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.settings-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .3s;
-  border-radius: 24px;
-}
-
-.settings-slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .3s;
-  border-radius: 50%;
-}
-
-input:checked + .settings-slider {
-  background-color: var(--primary-color);
-}
-
-input:checked + .settings-slider:before {
-  transform: translateX(20px);
-}
-
-.settings-item-arrow {
-  color: #ccc;
+.item-arrow {
+  color: #999999;
   font-size: 16px;
 }
 
-/* 按钮样式 */
-.settings-button {
-  display: block;
-  width: calc(100% - 40px);
-  margin: -5px auto;
-  margin-top: 6%;
-  padding: 12px 0;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 100px;
-  font-size: 15px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
+/* 操作按钮 */
+.action-buttons {
+  padding: 0 20px;
 }
 
-.settings-button:hover {
-  background-color: #3a80d2;
+.clear-btn {
+  background-color: #FFFFFF;
+  color: #FF3B30;
+  border: 1px solid #FF3B30;
+  margin-bottom: 15px;
 }
 
-.settings-button.danger {
-  background-color: #e74c3c;
+.logout-btn {
+  background-color: #FF3B30;
+  color: #FFFFFF;
 }
 
-.settings-button.danger:hover {
-  background-color: #c0392b;
-}
-
-/* 深色模式样式 */
+/* 深色模式适配 */
 .dark-mode .settings-container {
-  background-color: #2a2a2a;
+  background-color: #1C1C1E;
 }
 
-.dark-mode .settings-user-header {
-  border-bottom-color: #444;
+.dark-mode .user-card,
+.dark-mode .settings-list {
+  background-color: #2C2C2E;
 }
 
-.dark-mode .settings-avatar {
-  background-color: #444;
+.dark-mode .nickname,
+.dark-mode .item-label {
+  color: #FFFFFF;
 }
 
-.dark-mode .settings-avatar .fa {
-  color: var(--primary-color);
-}
-
-.dark-mode .settings-username {
-  color: #f0f0f0;
-}
-
-.dark-mode .settings-userid {
-  color: #aaa;
+.dark-mode .id,
+.dark-mode .item-arrow {
+  color: #8E8E93;
 }
 
 .dark-mode .settings-item {
-  border-bottom-color: #3a3a3a;
+  border-bottom-color: #3A3A3C;
 }
 
-.dark-mode .settings-item:active {
-  background-color: #383838;
-}
-
-.dark-mode .settings-item-title {
-  color: #f0f0f0;
-}
-
-.dark-mode .settings-slider {
-  background-color: #666;
-}
-
-.dark-mode .settings-item-arrow {
-  color: #666;
-}
-
-.dark-mode .settings-button.danger {
-  background-color: #e74c3c;
-}
-
-.dark-mode .settings-button.danger:hover {
-  background-color: #c0392b;
+.dark-mode .clear-btn {
+  background-color: #2C2C2E;
+  color: #FF453A;
+  border-color: #FF453A;
 }
 </style> 

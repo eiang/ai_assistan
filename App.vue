@@ -26,9 +26,20 @@ export default {
     
     // 检查用户是否已登录
     try {
-      const userInfo = uni.getStorageSync('userInfo');
-      if (userInfo) {
-        this.globalData.userInfo = JSON.parse(userInfo);
+      const userInfoData = uni.getStorageSync('userInfo');
+      if (userInfoData) {
+        // 检查是否需要解析
+        if (typeof userInfoData === 'string') {
+          try {
+            this.globalData.userInfo = JSON.parse(userInfoData);
+          } catch (e) {
+            console.log('解析用户信息字符串失败', e);
+            this.globalData.userInfo = null;
+          }
+        } else {
+          // 已经是对象，直接使用
+          this.globalData.userInfo = userInfoData;
+        }
       }
     } catch (e) {
       console.log('读取用户信息失败');
