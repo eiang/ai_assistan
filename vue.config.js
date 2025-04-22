@@ -1,5 +1,6 @@
 const path = require('path');
-const webpack = require('webpack');
+// 移除webpack导入，因为不再需要DefinePlugin
+// const webpack = require('webpack');
 
 module.exports = {
   configureWebpack: {
@@ -10,14 +11,7 @@ module.exports = {
         '@components': path.resolve(__dirname, './components'),
         '@pages': path.resolve(__dirname, './pages')
       }
-    },
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          VUE_APP_API_BASE_URL: JSON.stringify(process.env.VUE_APP_API_BASE_URL || 'http://localhost:8000'),
-          VUE_APP_API_TIMEOUT: JSON.stringify(process.env.VUE_APP_API_TIMEOUT || '30000')
-        }
-      })
-    ]
+    }
+    // 移除plugins部分，不再使用webpack.DefinePlugin
   }
 } 
