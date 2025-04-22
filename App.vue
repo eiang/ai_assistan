@@ -1,12 +1,20 @@
 <script>
+import envConfig from '@/utils/env-config'
+
 export default {
   globalData: {
     userInfo: null,
     isDarkMode: false,
-    presetQuestion: '' // 预设问题，在页面跳转时可能会设置
+    presetQuestion: '', // 预设问题，在页面跳转时可能会设置
+    apiBaseUrl: envConfig.API_BASE_URL, // 从环境配置中读取API基础URL
   },
   onLaunch: function() {
     console.log('App Launch');
+    
+    // 记录环境信息
+    console.log('当前运行环境:', envConfig.ENV);
+    console.log('API基础URL:', envConfig.API_BASE_URL);
+    
     // 从本地存储中读取用户主题设置
     try {
       const darkMode = uni.getStorageSync('isDarkMode');

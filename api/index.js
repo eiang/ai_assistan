@@ -2,230 +2,202 @@ import request from '../utils/request'
 import envConfig from '../utils/env-config'
 
 // 获取环境配置中的存储键和其他信息
-const { API_BASE_URL, STORAGE_KEYS } = envConfig;
+const { STORAGE_KEYS } = envConfig;
 
-// 请求拦截器
-const requestInterceptor = (config) => {
-  // 添加token到请求头
-  const token = uni.getStorageSync(STORAGE_KEYS.TOKEN)
-  if (token) {
-    config.header = {
-      ...config.header,
-      'Authorization': `Bearer ${token}`
-    }
-  }
-  
-  // 打印请求信息
-  console.log('请求配置:', {
-    url: config.url,
-    method: config.method,
-    data: config.data,
-    header: config.header
-  })
-  
-  return config
-}
-
-// 响应拦截器
-const responseInterceptor = (response) => {
-  const { statusCode, data } = response
-  
-  // 打印响应信息
-  console.log('响应数据:', {
-    statusCode,
-    data
-  })
-  
-  // 处理401未授权
-  if (statusCode === 401) {
-    uni.removeStorageSync(STORAGE_KEYS.TOKEN)
-    uni.removeStorageSync(STORAGE_KEYS.USER_INFO)
-    uni.reLaunch({
-      url: '/pages/login/login'
-    })
-    return Promise.reject(new Error('登录已过期，请重新登录'))
-  }
-  
-  // 处理422参数错误
-  if (statusCode === 422) {
-    let errorMsg = '参数错误'
-    try {
-      if (typeof data === 'string') {
-        errorMsg = data
-      } else if (data && typeof data === 'object') {
-        // 处理FastAPI的422错误格式
-        if (data.detail && Array.isArray(data.detail)) {
-          errorMsg = data.detail.map(item => {
-            console.log('错误项:', item)
-            return `${item.loc ? item.loc.join('.') + ': ' : ''}${item.msg}`
-          }).join('; ')
-        } else if (data.detail) {
-          errorMsg = typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail)
-        } else if (data.message) {
-          errorMsg = data.message
-        } else {
-          errorMsg = JSON.stringify(data)
-        }
-      }
-    } catch (e) {
-      console.error('解析错误信息失败:', e)
-      errorMsg = '参数错误，请检查输入'
-    }
-    console.error('422错误详情:', errorMsg, '原始数据:', data)
-    return Promise.reject(new Error(errorMsg))
-  }
-  
-  // 处理其他错误状态码
-  if (statusCode !== 200) {
-    let errorMsg = '请求失败'
-    try {
-      if (typeof data === 'string') {
-        errorMsg = data
-      } else if (data && typeof data === 'object') {
-        errorMsg = data.message || data.detail || JSON.stringify(data)
-      }
-    } catch (e) {
-      console.error('解析错误信息失败:', e)
-      errorMsg = '请求失败，请稍后重试'
-    }
-    console.error('请求错误详情:', errorMsg, '原始数据:', data)
-    return Promise.reject(new Error(errorMsg))
-  }
-  
-  // 处理业务错误
-  if (data && data.code !== undefined && data.code !== 200) {
-    let errorMsg = '操作失败'
-    try {
-      if (typeof data === 'string') {
-        errorMsg = data
-      } else if (data && typeof data === 'object') {
-        errorMsg = data.message || data.detail || JSON.stringify(data)
-      }
-    } catch (e) {
-      console.error('解析错误信息失败:', e)
-      errorMsg = '操作失败，请稍后重试'
-    }
-    console.error('业务错误详情:', errorMsg, '原始数据:', data)
-    return Promise.reject(new Error(errorMsg))
-  }
-  
-  // 处理响应数据
-  if (data && data.data !== undefined) {
-    return data.data
-  }
-  
-  return data
-}
-
-// 认证相关接口
+/**
+ * 认证相关接口
+ */
 export const authApi = {
-  // 微信登录
+  /**
+   * 微信登录
+   * @param {Object} data 登录数据
+   * @returns {Promise} 登录结果
+   */
   wechatLogin(data) {
-    return request({
-      url: `/auth/wechat-login`,
-      method: 'POST',
-      data: {
-        code: data.code,
-        userInfo: {
-          nickName: "微信用户",
-          avatarUrl: ""
-        }
-      },
-      header: {
-        'Content-Type': 'application/json'
+    return request.post('/auth/wechat-login', {
+      code: data.code,
+      userInfo: data.userInfo || {
+        nickName: "微信用户",
+        avatarUrl: ""
       }
-    }, requestInterceptor, responseInterceptor)
+    });
   },
   
-  // 退出登录
+  /**
+   * 退出登录
+   * @returns {Promise} 退出结果
+   */
   logout() {
-    return request({
-      url: `/auth/logout`,
-      method: 'POST'
-    }, requestInterceptor, responseInterceptor)
+    // 清除本地存储的登录信息
+    uni.removeStorageSync(STORAGE_KEYS.TOKEN);
+    uni.removeStorageSync(STORAGE_KEYS.USER_INFO);
+    
+    return request.post('/auth/logout');
   }
-}
+};
 
-// 用户相关接口
+/**
+ * 用户相关接口
+ */
 export const userApi = {
-  // 获取用户信息
+  /**
+   * 获取用户信息
+   * @returns {Promise} 用户信息
+   */
   getUserInfo() {
-    return request({
-      url: `/user/info`,
-      method: 'GET'
-    }, requestInterceptor, responseInterceptor)
+    return request.get('/user/info');
   },
   
-  // 更新用户设置
-  updateUserSettings(settings) {
-    return request({
-      url: `/user/settings`,
-      method: 'PUT',
-      data: settings
-    }, requestInterceptor, responseInterceptor)
+  /**
+   * 更新用户资料
+   * @param {Object} data 用户资料数据
+   * @returns {Promise} 更新结果
+   */
+  updateProfile(data) {
+    return request.put('/user/profile', data);
+  },
+  
+  /**
+   * 更新用户设置
+   * @param {Object} settings 用户设置
+   * @returns {Promise} 更新结果
+   */
+  updateSettings(settings) {
+    return request.put('/user/settings', settings);
   }
-}
+};
 
-// 聊天相关接口
+/**
+ * 聊天相关接口
+ */
 export const chatApi = {
-  // 发送消息
+  /**
+   * 发送消息
+   * @param {Object} data 消息数据
+   * @returns {Promise} 消息响应
+   */
   sendMessage(data) {
-    return request({
-      url: `/chat/message`,
-      method: 'POST',
-      data: {
-        content: data.content,
-        sessionId: data.sessionId
-      }
-    }, requestInterceptor, responseInterceptor)
+    return request.post('/chat/message', {
+      content: data.content,
+      sessionId: data.sessionId
+    });
   },
   
-  // 获取聊天历史
+  /**
+   * 获取聊天历史
+   * @param {Object} params 查询参数
+   * @returns {Promise} 聊天历史
+   */
   getHistory(params) {
-    return request({
-      url: `/chat/history`,
-      method: 'GET',
-      data: params
-    }, requestInterceptor, responseInterceptor)
+    return request.get('/chat/history', params);
   },
   
-  // 清除聊天历史
-  clearHistory() {
-    return request({
-      url: `/chat/history`,
-      method: 'DELETE'
-    }, requestInterceptor, responseInterceptor)
+  /**
+   * 创建聊天会话
+   * @param {Object} data 会话数据
+   * @returns {Promise} 会话信息
+   */
+  createSession(data) {
+    return request.post('/chat/session', data);
+  },
+  
+  /**
+   * 获取会话列表
+   * @param {Object} params 查询参数
+   * @returns {Promise} 会话列表
+   */
+  getSessions(params) {
+    return request.get('/chat/sessions', params);
+  },
+  
+  /**
+   * 删除会话
+   * @param {string} sessionId 会话ID
+   * @returns {Promise} 删除结果
+   */
+  deleteSession(sessionId) {
+    return request.delete(`/chat/session/${sessionId}`);
+  },
+  
+  /**
+   * 清除聊天历史
+   * @param {string} sessionId 会话ID
+   * @returns {Promise} 清除结果
+   */
+  clearHistory(sessionId) {
+    return request.delete(`/chat/history/${sessionId}`);
   }
-}
+};
 
-// AI相关接口
+/**
+ * AI相关接口
+ */
 export const aiApi = {
-  // 语音识别
-  speechToText(file) {
-    return new Promise((resolve, reject) => {
-      uni.uploadFile({
-        url: `${API_BASE_URL}/ai/speech-to-text`,
-        filePath: file,
-        name: 'audio',
-        header: {
-          'Authorization': `Bearer ${uni.getStorageSync(STORAGE_KEYS.TOKEN)}`
-        },
-        success: (res) => {
-          if (res.statusCode === 200) {
-            const data = JSON.parse(res.data)
-            if (data.code === 200) {
-              resolve(data.data)
-            } else {
-              reject(new Error(data.message || '语音识别失败'))
-            }
-          } else {
-            reject(new Error('上传失败'))
-          }
-        },
-        fail: (err) => {
-          reject(err)
-        }
-      })
-    })
+  /**
+   * 语音识别
+   * @param {string} filePath 音频文件路径
+   * @param {Object} options 上传选项
+   * @returns {Promise} 识别结果
+   */
+  speechToText(filePath, options = {}) {
+    return request.upload('/ai/speech-to-text', {
+      filePath,
+      name: 'audio',
+      formData: options.formData || {},
+      loadingText: '识别中...'
+    });
+  },
+  
+  /**
+   * 文本生成语音
+   * @param {Object} data 文本数据
+   * @returns {Promise} 语音文件路径
+   */
+  textToSpeech(data) {
+    return request.post('/ai/text-to-speech', data, {
+      responseType: 'arraybuffer',
+      loadingText: '生成中...'
+    });
+  },
+  
+  /**
+   * 获取AI模型列表
+   * @returns {Promise} 模型列表
+   */
+  getModels() {
+    return request.get('/ai/models');
   }
-} 
+};
+
+/**
+ * 文件上传相关接口
+ */
+export const fileApi = {
+  /**
+   * 上传图片
+   * @param {string} filePath 图片文件路径
+   * @param {Object} options 上传选项
+   * @returns {Promise} 上传结果
+   */
+  uploadImage(filePath, options = {}) {
+    return request.upload('/file/image', {
+      filePath,
+      name: 'image',
+      formData: options.formData || {}
+    });
+  },
+  
+  /**
+   * 上传文件
+   * @param {string} filePath 文件路径
+   * @param {Object} options 上传选项
+   * @returns {Promise} 上传结果
+   */
+  uploadFile(filePath, options = {}) {
+    return request.upload('/file/upload', {
+      filePath,
+      name: 'file',
+      formData: options.formData || {}
+    });
+  }
+}; 

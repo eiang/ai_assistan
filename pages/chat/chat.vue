@@ -30,12 +30,24 @@
         <view :id="'msg-' + index" class="message-container ai" v-if="message.type === 'ai'">
           <view class="message-row">
             <view class="message-avatar">
-        <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNmZmUwYjIiIGQ9Ik0yNiwxNmMtMTAuNzQ3LDAtMTkuODk5LDMuNC0yNS44NTYsNi4zNzVDMC4wNTEsMjMuMDczLDAsMjMuNzgyLDAsMjQuNUMwLDM1LjI3LDEwLjc0NSw0NCwyNCw0NAlzMjQtOC43MywyNC0xOS41YzAtMS4zNi0wLjE3Mi0yLjY4Ny0wLjQ5OS0zLjk2OUM0MC40NDYsMTcuNTMzLDMzLjIxNywxNiwyNiwxNnoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5Yy0wLjAxNSwzLjc2NywyLjk0OCw3LjIzOSw2LjU3OSw3LjM3NmMzLjU4OCwwLjEzNiw1LjkyOC0zLjA2Niw1LjMyNi02Ljc4NgljLTAuNTQ2LTMuMzctMy4zNjQtNi4wMjItNi4zNjctNi4yMDFDMjYuNTA2LDE3LjgyOSwyNC4wMTQsMjAuMjEzLDI0LDIzLjYxOXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5YzAuMDE1LDMuNzY3LTIuOTQ0LDcuMjM5LTYuNTcxLDcuMzc2Yy0zLjU4MywwLjEzNi01LjkyMS0zLjA2Ni01LjMxOS02Ljc4NgljMC41NDUtMy4zNywzLjM1OS02LjAyMiw2LjM1OC02LjIwMUMyMS40OTgsMTcuODI5LDIzLjk4NiwyMC4yMTMsMjQsMjMuNjE5eiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjQiIHI9IjEiIGZpbGw9IiMyMTIxMjEiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjI0IiByPSIxIiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZmlsbD0iIzIxMjEyMSIgZD0iTTI0Ljc1NCw0MGMtMi43NSwwLTQuNzE5LTEuMTQ4LTQuODAyLTEuMTk3bDEuMDIxLTEuNzIxQzIwLjk4NSwzNy4wODksMjIuNTc1LDM4LDI0Ljc1NCwzOAljMS44MDUsMCwzLjI1My0wLjcyNCwzLjI2OC0wLjczMWwwLjkxMywxLjc4QzI4Ljg2LDM5LjA4NywyNy4wNjEsNDAsMjQuNzU0LDQweiIvPjxwYXRoIGZpbGw9IiMwMDk3YTciIGQ9Ik0wLjM2MSwyMS4xNTFjLTAuMDg2LDAuNDA0LTAuMTU3LDAuODExLTAuMjE0LDEuMjIzQzYuMTA0LDE5LjM5OSwxNS4yNTQsMTYsMjYsMTYJYzcuMjEsMCwxNC40MzMsMS41MzEsMjEuNDgzLDQuNTI0Yy0wLjExMi0wLjQxNi0wLjI0LTAuODI4LTAuMzc5LTEuMjM2Yy0wLjEwMi0wLjA0Mi0wLjIwNC0wLjA3Ni0wLjMwNS0wLjExNwljMC4yMDEsMC4wNjYsMC4zMjcsMC4xMDksMC4zMjcsMC4xMDlDNDQuMzE3LDExLjA0NiwzNS4wMjksNSwyNCw1QzEyLjE1MSw1LDIuMzEsMTEuOTc2LDAuMzU1LDIxLjE0OWMwLDAsMC4wODktMC4wNDIsMC4yNTQtMC4xMTUJQzAuNTI4LDIxLjA3MywwLjQ0MSwyMS4xMTIsMC4zNjEsMjEuMTUxeiIvPjxwYXRoIGZpbGw9IiNmZmVhMDAiIGQ9Ik00Ny43NTIsMjEuNzE1Yy0wLjE0Ni0wLjgyOS0wLjM3OC0xLjYzNS0wLjY0OC0yLjQyN0M0MC4xNzQsMTYuNDU0LDMzLjA4MywxNSwyNiwxNQljLTEwLjU0NCwwLTE5LjU3NywzLjIxMS0yNS42MzksNi4xNTFjLTAuMTY3LDAuNzg1LTAuMjg0LDEuNTg1LTAuMzMyLDIuMzk5QzYuNDEsMjAuMjgzLDE1LjQ0NiwxNywyNiwxNwlDMzQuNTYxLDE3LDQyLjAxNywxOS4yLDQ3Ljc1MiwyMS43MTV6Ii8+PHBvbHlnb24gZmlsbD0iI2ZmZWEwMCIgcG9pbnRzPSIxNiw2LjExIDE2LjgyNiw0LjQwOCAxOCw0IDIwLDMgMjMsMyAyNCwyIDI2LjA2MSwyLjM0NCAyNy41LDMuNSAyOS41LDQgMzAsNS42MTQgMjksNi41IDI3LDYgMjYsNyAyNC41LDcgMjMsNiAyMC41LDcgMjAsNS41IDE4LjUsNyAxNi41LDciLz48L3N2Zz4="/>
+              <img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNmZmUwYjIiIGQ9Ik0yNiwxNmMtMTAuNzQ3LDAtMTkuODk5LDMuNC0yNS44NTYsNi4zNzVDMC4wNTEsMjMuMDczLDAsMjMuNzgyLDAsMjQuNUMwLDM1LjI3LDEwLjc0NSw0NCwyNCw0NAlzMjQtOC43MywyNC0xOS41YzAtMS4zNi0wLjE3Mi0yLjY4Ny0wLjQ5OS0zLjk2OUM0MC40NDYsMTcuNTMzLDMzLjIxNywxNiwyNiwxNnoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5Yy0wLjAxNSwzLjc2NywyLjk0OCw3LjIzOSw2LjU3OSw3LjM3NmMzLjU4OCwwLjEzNiw1LjkyOC0zLjA2Niw1LjMyNi02Ljc4NgljLTAuNTQ2LTMuMzctMy4zNjQtNi4wMjItNi4zNjctNi4yMDFDMjYuNTA2LDE3LjgyOSwyNC4wMTQsMjAuMjEzLDI0LDIzLjYxOXoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQsMjMuNjE5YzAuMDE1LDMuNzY3LTIuOTQ0LDcuMjM5LTYuNTcxLDcuMzc2Yy0zLjU4MywwLjEzNi01LjkyMS0zLjA2Ni01LjMxOS02Ljc4NgljMC41NDUtMy4zNywzLjM1OS02LjAyMiw2LjM1OC02LjIwMUMyMS40OTgsMTcuODI5LDIzLjk4NiwyMC4yMTMsMjQsMjMuNjE5eiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjQiIHI9IjEiIGZpbGw9IiMyMTIxMjEiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjI0IiByPSIxIiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZmlsbD0iIzIxMjEyMSIgZD0iTTI0Ljc1NCw0MGMtMi43NSwwLTQuNzE5LTEuMTQ4LTQuODAyLTEuMTk3bDEuMDIxLTEuNzIxQzIwLjk4NSwzNy4wODksMjIuNTc1LDM4LDI0Ljc1NCwzOAljMS44MDUsMCwzLjI1My0wLjcyNCwzLjI2OC0wLjczMWwwLjkxMywxLjc4QzI4Ljg2LDM5LjA4NywyNy4wNjEsNDAsMjQuNzU0LDQweiIvPjxwYXRoIGZpbGw9IiMwMDk3YTciIGQ9Ik0wLjM2MSwyMS4xNTFjLTAuMDg2LDAuNDA0LTAuMTU3LDAuODExLTAuMjE0LDEuMjIzQzYuMTA0LDE5LjM5OSwxNS4yNTQsMTYsMjYsMTYJYzcuMjEsMCwxNC40MzMsMS41MzEsMjEuNDgzLDQuNTI0Yy0wLjExMi0wLjQxNi0wLjI0LTAuODI4LTAuMzc5LTEuMjM2Yy0wLjEwMi0wLjA0Mi0wLjIwNC0wLjA3Ni0wLjMwNS0wLjExNwljMC4yMDEsMC4wNjYsMC4zMjcsMC4xMDksMC4zMjcsMC4xMDlDNDQuMzE3LDExLjA0NiwzNS4wMjksNSwyNCw1QzEyLjE1MSw1LDIuMzEsMTEuOTc2LDAuMzU1LDIxLjE0OWMwLDAsMC4wODktMC4wNDIsMC4yNTQtMC4xMTUJQzAuNTI4LDIxLjA3MywwLjQ0MSwyMS4xMTIsMC4zNjEsMjEuMTUxeiIvPjxwYXRoIGZpbGw9IiNmZmVhMDAiIGQ9Ik00Ny43NTIsMjEuNzE1Yy0wLjE0Ni0wLjgyOS0wLjM3OC0xLjYzNS0wLjY0OC0yLjQyN0M0MC4xNzQsMTYuNDU0LDMzLjA4MywxNSwyNiwxNQljLTEwLjU0NCwwLTE5LjU3NywzLjIxMS0yNS42MzksNi4xNTFjLTAuMTY3LDAuNzg1LTAuMjg0LDEuNTg1LTAuMzMyLDIuMzk5QzYuNDEsMjAuMjgzLDE1LjQ0NiwxNywyNiwxNwlDMzQuNTYxLDE3LDQyLjAxNywxOS4yLDQ3Ljc1MiwyMS43MTV6Ii8+PHBvbHlnb24gZmlsbD0iI2ZmZWEwMCIgcG9pbnRzPSIxNiw2LjExIDE2LjgyNiw0LjQwOCAxOCw0IDIwLDMgMjMsMyAyNCwyIDI2LjA2MSwyLjM0NCAyNy41LDMuNSAyOS41LDQgMzAsNS42MTQgMjksNi41IDI3LDYgMjYsNyAyNC41LDcgMjMsNiAyMC41LDcgMjAsNS41IDE4LjUsNyAxNi41LDciLz48L3N2Zz4="/>
             </view>
             <view class="message message-ai" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-              <text>{{message.content}}</text>
-              <tui-alert  :show="showModal" size="30"  btnColor="#3b3b3b" btnText = "复制" maskClosable="false" @click="copyContent(message.content)" @cancel="hideAlert">
-              {{message.content}}
+              <!-- 文本消息 -->
+              <text v-if="!message.isImage" class="ai-message-text">{{message.content}}</text>
+              <!-- 图片消息 -->
+              <view v-else class="ai-image-container">
+                <image 
+                  class="ai-generated-image" 
+                  :src="message.content" 
+                  mode="widthFix" 
+                  @click="previewImage(message.content)" 
+                  @longpress="saveImage(message.content)"
+                />
+                <view class="image-hint">点击可查看，长按可保存</view>
+              </view>
+              <tui-alert :show="showModal" size="30" btnColor="#3b3b3b" btnText="复制" maskClosable="false" @click="copyContent(message.content)" @cancel="hideAlert">
+                {{message.content}}
               </tui-alert>
             </view>
           </view>
@@ -105,41 +117,63 @@
       
       <!-- 输入框区域 -->
       <view class="chat-input-area">
-        <textarea 
-          class="chat-input" 
-          v-model="inputMessage" 
-          placeholder="输入消息..." 
-          :auto-height="true"
-          :cursor-spacing="8"
-          :show-confirm-bar="false"
-          :adjust-position="false"
-          @input="adjustInputHeight"
-          @focus="onInputFocus"
-          @blur="onInputBlur"
-          @keyboardheightchange="onKeyboardHeightChange"
-          :maxlength="-1"
-          confirm-type="return"
-          :confirm-hold="true"
-        />
-        <view class="chat-actions">
-          <view class="chat-btn voice-btn" @tap="toggleVoiceInput">
-            <tui-icon :name="isRecording ? 'voice-fill' : 'voice'"></tui-icon>
+        <!-- 模式切换按钮区域 -->
+        <view class="input-mode-toggle">
+          <view class="mode-indicator">
+            <text class="mode-label">当前模式:</text>
+            <tui-tag 
+              size="small" 
+              padding="6px 10px" 
+              :type="isText2Pic ? 'light-blue' : 'gray'" 
+              @click="toggleVoiceInput"
+            >
+              <view class="toggle-mode">
+                <tui-icon :name="isText2Pic ? 'picture' : 'strategy'" :size="16"></tui-icon>
+                <text>{{isText2Pic ? '图像生成' : '文本对话'}}</text>
+              </view>
+            </tui-tag>
           </view>
-          <view class="chat-btn send-btn" @tap="sendMessage" :class="{'btn-active': inputMessage.trim().length > 0}">
-            <tui-icon name="send" :color="inputMessage.trim().length > 0 ? '#4A90E2' : '#999'"></tui-icon>
+        </view>
+        
+        <!-- 输入框和发送按钮区域 -->
+        <view class="input-send-area">
+          <textarea 
+            class="chat-input" 
+            v-model="inputMessage" 
+            placeholder="输入消息..." 
+            :auto-height="true"
+            :cursor-spacing="8"
+            :show-confirm-bar="false"
+            :adjust-position="false"
+            @input="adjustInputHeight"
+            @focus="onInputFocus"
+            @blur="onInputBlur"
+            @keyboardheightchange="onKeyboardHeightChange"
+            :maxlength="-1"
+            confirm-type="return"
+            :confirm-hold="true"
+          />
+          <view class="send-btn-area">
+            <view class="chat-btn send-btn" @tap="sendMessage" :class="{'btn-active': inputMessage.trim().length > 0}">
+              <tui-icon name="send" :color="inputMessage.trim().length > 0 ? '#4A90E2' : '#999'"></tui-icon>
+            </view>
           </view>
         </view>
       </view>
     </view>
     
     <!-- 录音中提示框 -->
-    <view class="recording-hint" v-if="isRecording">
+    <!-- <view class="recording-hint" v-if="isText2Pic">
       正在录音...
-    </view>
+    </view> -->
   </view>
 </template>
 
 <script>
+import { checkLoginStatus } from '@/utils/auth'
+import request from '@/utils/request'
+import envConfig from '@/utils/env-config'
+
 export default {
   data() {
     return {
@@ -150,10 +184,10 @@ export default {
       contentHeight: 500, // 会在onLoad中计算
       showSuggestions: true,
       isThinking: false,
-      isRecording: false,
+      isText2Pic: false,
       isKeyboardShow: false,
       keyboardHeight: 0,
-      
+      baseUrl: '',
       // 当前日期和时间
       currentDate: '今天 ' + this.formatTime(new Date()),
       currentTime: this.formatTime(new Date()),
@@ -183,8 +217,29 @@ export default {
   },
   
   onLoad() {
+    // 从环境配置中获取API基础URL
+    this.baseUrl = envConfig.API_BASE_URL;
+    console.log('从配置文件加载API基础URL:', this.baseUrl);
+    
+    // 如果配置中没有找到，则尝试从App全局变量获取
+    if (!this.baseUrl) {
+      const app = getApp();
+      this.baseUrl = app.globalData.apiBaseUrl;
+      console.log('从App全局变量获取API基础URL:', this.baseUrl);
+    }
+    
+    // 确保baseUrl有值，设置最终的默认值
+    if (!this.baseUrl) {
+      this.baseUrl = 'http://localhost:8000';
+      console.warn('API基础URL未在配置中找到，使用默认值:', this.baseUrl);
+    }
+    
+    // 检查登录状态
+    this.checkLoginStatus();
+    
     // 获取预设问题
-    const globalData = getApp().globalData;
+    const app = getApp();
+    const globalData = app.globalData;
     if (globalData && globalData.presetQuestion) {
       // 设置输入内容
       this.inputMessage = globalData.presetQuestion;
@@ -268,7 +323,33 @@ export default {
     this.scrollToBottom();
   },
   
+  // 每次页面显示时检查登录状态
+  onShow() {
+    // 检查登录状态
+    this.checkLoginStatus();
+  },
+  
   methods: {
+    // 检查登录状态
+    checkLoginStatus() {
+      // 使用工具函数检查登录状态
+      const isLoggedIn = checkLoginStatus();
+      
+      if (!isLoggedIn) {
+        uni.showToast({
+          title: '登录已过期，请重新登录',
+          icon: 'none',
+          duration: 2000
+        });
+        
+        // 延迟跳转到登录页面
+        setTimeout(() => {
+          uni.redirectTo({
+            url: '/pages/index/index'
+          });
+        }, 2000);
+      }
+    },
   	hideAlert() {
  		this.showModal = false
  	  },
@@ -364,6 +445,7 @@ export default {
      * 发送消息
      */
     sendMessage() {
+
       if (!this.inputMessage.trim()) return;
       
       // 获取当前时间
@@ -396,14 +478,16 @@ export default {
         }, 300);
       });
       
-      // 模拟AI响应（实际项目中会调用API）
-      setTimeout(() => {
-        this.isThinking = false;
+      // 调用AI响应函数
+      if(!this.isText2Pic){
+        // 调用AI生成文字方法
+        this.getAiResponse(message).then(response => {
         
         // 添加AI回复
         this.messageList.push({
           type: 'ai',
-          content: this.getSimpleResponse(message),
+          content: response,
+          isImage: false,
           time: this.formatTime(new Date())
         });
         
@@ -421,31 +505,161 @@ export default {
             this.scrollToBottom();
           }, 600);
         });
-      }, 1500);
+      }).catch(error => {
+        this.isThinking = false;
+        console.error('AI响应错误:', error);
+        
+        // 添加错误消息
+        this.messageList.push({
+          type: 'ai',
+          content: '抱歉，出现了一些问题，请稍后再试。',
+          isImage: false,
+          time: this.formatTime(new Date())
+        });
+        
+        // 滚动到底部
+        this.$nextTick(() => {
+          this.scrollToBottom();
+        });
+      }).finally(() => {
+        this.isThinking = false;
+      });
+      }else{
+        // 调用文生图方法
+        this.getText2ImageResponse(message).then(response => {
+          console.log('文生图AI响应:', response);
+          
+          try {
+            // 解析响应数据以获取图片URL
+            let imageUrl = '';
+            
+            if (response && response.result) {
+              // 解析嵌套的JSON字符串
+              const resultData = typeof response.result === 'string' 
+                ? JSON.parse(response.result) 
+                : response.result;
+              
+              console.log('解析后的图片数据:', resultData);
+              
+              if (resultData.success && resultData.data && resultData.data.length > 0) {
+                imageUrl = resultData.data[0].image_url;
+                console.log('获取到的图片URL:', imageUrl);
+              }
+            }
+            
+            if (imageUrl) {
+              // 添加AI回复-图片消息
+              this.messageList.push({
+                type: 'ai',
+                content: imageUrl,
+                isImage: true,
+                time: this.formatTime(new Date())
+              });
+            } else {
+              // 如果未找到图片URL，显示错误消息
+              this.messageList.push({
+                type: 'ai',
+                content: '抱歉，图片生成失败，请稍后再试。',
+                isImage: false,
+                time: this.formatTime(new Date())
+              });
+            }
+          } catch (e) {
+            console.error('处理图片响应出错:', e);
+            this.messageList.push({
+              type: 'ai',
+              content: '抱歉，处理图片响应时出错，请稍后再试。',
+              isImage: false,
+              time: this.formatTime(new Date())
+            });
+          }
+          
+          // 滚动到底部
+          this.$nextTick(() => {
+            this.scrollToView = 'msg-' + (this.messageList.length - 1);
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 300);
+          });
+        }).catch(error => {
+          console.error('文生图AI响应错误:', error);
+          this.messageList.push({
+            type: 'ai',
+            content: '抱歉，图片生成失败，请稍后再试。',
+            isImage: false,
+            time: this.formatTime(new Date())
+          });
+          
+          // 滚动到底部
+          this.$nextTick(() => {
+            this.scrollToBottom();
+          });
+        }).finally(() => {
+          this.isThinking = false;
+        });
+      }
     },
     
     /**
-     * 简单的响应生成函数（实际开发中会调用真实API）
+     * AI的响应生成函数
      */
-    getSimpleResponse(userMessage) {
-      // 简单的模拟响应逻辑
-      if (userMessage.includes('你好') || userMessage.includes('嗨') || userMessage.includes('hi')) {
-        return '你好！很高兴为你服务。我是一个AI助手，你可以问我任何问题。';
-      } 
-      else if (userMessage.includes('天气')) {
-        return '根据您的位置信息，今天天气晴朗，气温22-28°C，微风，适合户外活动。但下午可能有轻微阵雨，建议出门携带雨具。';
-      }
-      else if (userMessage.includes('邮件')) {
-        return '好的，我可以帮你写一封邮件。请问是什么类型的邮件？给谁的？主题是什么？';
-      }
-      else if (userMessage.includes('旅行') || userMessage.includes('规划')) {
-        return '我很乐意帮你规划旅行。请告诉我你想去的目的地、计划的时间和预算，以及你的兴趣爱好，我会为你提供详细的行程建议。';
-      } 
-      else {
-        return '我理解你的问题是关于"' + userMessage + '"。这是一个有趣的话题，你能告诉我更多具体信息吗，这样我能给你提供更准确的帮助。';
-      }
+    getAiResponse(userMessage) {
+        // 返回一个 Promise 对象
+        return new Promise((resolve, reject) => {
+          console.log('请求AI回复，使用配置的baseUrl:', this.baseUrl);
+          
+          request.get('/chat/chatAi', { message: userMessage }, {
+            loading: false, // 不显示loading，因为我们有自己的加载状态
+          }).then(response => {
+            console.log('AI响应数据:', response);
+            resolve(response);
+          }).catch(error => {
+            console.error('AI请求失败:', error);
+            const errorMsg = error.message || '获取AI回复失败';
+            uni.showToast({
+              title: errorMsg,
+              icon: 'none'
+            });
+            resolve('抱歉，我现在无法回答您的问题。请稍后再试。');
+          });
+        });
     },
-    
+
+    /*
+     * 调用后端文生图api
+     */
+    getText2ImageResponse(userMessage) {
+      return new Promise((resolve, reject) => {
+        console.log('请求生成图片，使用配置的baseUrl:', this.baseUrl);
+        
+        request.get('/chat/text2imagewithdeepseek', { message: userMessage }, {
+          loading: false, // 不显示loading，因为我们有自己的加载状态
+          resInterceptor: (response) => {
+            // 自定义响应拦截器，直接返回原始响应数据
+            if (response.statusCode === 200) {
+              return response.data;
+            } else {
+              uni.showToast({
+                title: '生成图片失败',
+                icon: 'none'
+              });
+              return Promise.reject({
+                code: response.statusCode,
+                message: '生成图片失败'
+              });
+            }
+          }
+        }).then(response => {
+          console.log('图片生成响应:', response);
+          resolve(response);
+        }).catch(error => {
+          console.error('图片生成请求失败:', error);
+          reject(error);
+        });
+      });
+    },
+      
+     
     /**
      * 将时间格式化为 HH:MM 格式
      */
@@ -505,21 +719,20 @@ export default {
      * 切换语音输入
      */
     toggleVoiceInput() {
-      this.isRecording = !this.isRecording;
+      this.isText2Pic = !this.isText2Pic;
       
-      if (this.isRecording) {
-        // 开始录音
-        console.log('开始录音');
-        
-        // 模拟3秒后自动结束录音
-        setTimeout(() => {
-          this.isRecording = false;
-          // 模拟语音识别结果
-          this.inputMessage = '这是一段语音识别的示例文本';
-        }, 3000);
+      if (this.isText2Pic) {
+        uni.showToast({
+          title: '已切换到图片生成模式',
+          icon: 'none',
+          duration: 1500
+        });
       } else {
-        // 结束录音
-        console.log('结束录音');
+        uni.showToast({
+          title: '已切换到文字生成模式',
+          icon: 'none',
+          duration: 1500
+        });
       }
     },
     
@@ -539,7 +752,69 @@ export default {
       uni.navigateBack({
         delta: 1
       });
-    }
+    },
+    
+    /**
+     * 预览图片
+     */
+    previewImage(url) {
+      uni.previewImage({
+        urls: [url],
+        current: url,
+        indicator: 'number',
+        loop: false
+      });
+    },
+    
+    /**
+     * 保存图片
+     */
+    saveImage(url) {
+      uni.showLoading({
+        title: '保存中...'
+      });
+      
+      // 下载图片
+      uni.downloadFile({
+        url: url,
+        success: (res) => {
+          if (res.statusCode === 200) {
+            // 保存图片到相册
+            uni.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success: () => {
+                uni.showToast({
+                  title: '保存成功',
+                  icon: 'success'
+                });
+              },
+              fail: (err) => {
+                console.error('保存图片失败', err);
+                uni.showToast({
+                  title: '保存失败',
+                  icon: 'none'
+                });
+              }
+            });
+          } else {
+            uni.showToast({
+              title: '下载失败',
+              icon: 'none'
+            });
+          }
+        },
+        fail: (err) => {
+          console.error('下载图片失败', err);
+          uni.showToast({
+            title: '下载失败',
+            icon: 'none'
+          });
+        },
+        complete: () => {
+          uni.hideLoading();
+        }
+      });
+    },
   }
 };
 </script>
@@ -724,6 +999,32 @@ export default {
   background-color: white;
   border-bottom-left-radius: 4px;
   color: var(--text-color);
+  padding: var(--spacing-md) var(--spacing-lg);
+  word-break: break-word;
+}
+
+/* Markdown内容样式调整 */
+.message-ai :deep(.markdown-content) {
+  min-width: 100%;
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+}
+
+/* 代码块样式增强 */
+.message-ai :deep(.md-pre) {
+  margin: 10rpx 0;
+  border-radius: 8rpx;
+}
+
+/* 表格样式优化 */
+.message-ai :deep(.md-table) {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* 列表样式增强 */
+.message-ai :deep(.md-ul), .message-ai :deep(.md-ol) {
+  padding-left: 20rpx;
 }
 
 .message-user {
@@ -746,78 +1047,106 @@ export default {
   transform: translateY(0); /* 初始位置 */
   transition: transform 0.25s ease-out; /* 控制动画时间和曲线，使其更贴近键盘动画 */
   will-change: transform; /* 优化性能 */
+  padding-bottom: env(safe-area-inset-bottom, 0px); /* 适配安全区 */
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05); /* 添加微妙阴影 */
 }
 
 /* 键盘激活时的样式 */
 .chat-bottom.keyboard-active {
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果，增强视觉分离 */
+  background-color: #fafafa; /* 轻微改变背景色 */
 }
 
 .chat-input-area {
   padding: var(--spacing-md);
   display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 10px;
+  max-width: 960px; /* 设置最大宽度，让在大屏上的显示更好 */
+  margin: 0 auto; /* 居中显示 */
+}
+
+/* 模式切换区域 */
+.input-mode-toggle {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 6px;
+  padding: 0 4px;
+}
+
+.mode-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mode-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* 输入框和发送按钮区域 */
+.input-send-area {
+  display: flex;
   flex-direction: row;
   align-items: flex-end;
   position: relative;
-}
-
-.chat-input {
-  flex: 1;
   border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-md) var(--spacing-lg);
-  padding-right: 90px; /* 为按钮留出空间 */
-  font-size: var(--font-size-md);
+  border-radius: 18px; /* 增加圆角使其更加圆润 */
   background-color: #fff;
-  min-height: 44px;
-  max-height: 120px;
-  outline: none;
   transition: all 0.3s ease;
-  margin-right: 0;
-  width: 100%;
-  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden; /* 防止内容溢出圆角 */
+  margin: 0 2px; /* 增加两侧边距 */
 }
 
-.chat-input:focus {
+.input-send-area:focus-within {
   border-color: var(--primary-color);
   box-shadow: var(--shadow-focus);
 }
 
-.chat-actions {
-  position: absolute;
-  right: var(--spacing-md);
-  bottom: var(--spacing-md);
-  display: flex;
-  gap: var(--spacing-sm);
+.chat-input {
+  flex: 1;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  padding: 12px 16px; /* 固定内边距，确保一致性 */
+  padding-right: 50px; /* 为发送按钮留出空间 */
+  font-size: var(--font-size-md);
+  background-color: transparent;
+  min-height: 44px;
+  max-height: 120px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.5; /* 增加行高，让多行文本间距更合理 */
 }
 
-.chat-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+/* 发送按钮区域 */
+.send-btn-area {
+  position: absolute;
+  right: 8px; /* 调整右侧边距 */
+  bottom: 3px; /* 调整底部边距 */
 }
 
 .chat-btn.send-btn {
-  background-color: #ffffff; 
-  color: white;
+  width: 38px;
+  height: 38px;
+  background-color: #ffffff;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
 }
 
 .chat-btn.send-btn.btn-active {
   transform: scale(1.05);
 }
 
-.chat-btn.voice-btn {
-  background-color: var(--light-gray);
-  color: var(--text-secondary);
-}
-
 .recording-hint {
   position: fixed;
-  bottom: 70px;
+  bottom: calc(70px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.7);
@@ -940,9 +1269,9 @@ export default {
 
 /* 底部安全区域 - 防止内容被底部遮挡 */
 .safe-bottom-area {
-  height: 50px; /* 提供额外空间防止被底部栏遮挡 */
+  height: calc(50px + env(safe-area-inset-bottom, 0px));
   width: 100%;
-  margin-bottom: 20px; /* 额外的底部边距 */
+  margin-bottom: 10px;
 }
 
 /* 响应式样式调整 */
@@ -973,16 +1302,30 @@ export default {
   }
   
   .chat-input-area {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: 8px;
+  }
+  
+  .input-mode-toggle {
+    margin-bottom: 4px;
+  }
+  
+  .mode-label {
+    font-size: 10px;
   }
   
   .chat-input {
+    padding: 8px 10px;
+    padding-right: 40px;
     min-height: 38px;
-    padding: var(--spacing-sm) var(--spacing-md);
-    padding-right: 80px;
   }
   
-  .chat-btn {
+  .send-btn-area {
+    right: 3px;
+    bottom: 1px;
+  }
+  
+  .chat-btn.send-btn {
     width: 34px;
     height: 34px;
   }
@@ -990,5 +1333,51 @@ export default {
   .suggestion-chip {
     padding: 3px var(--spacing-sm);
   }
+}
+
+.ai-message-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+}
+
+/* 图片消息样式 */
+.ai-image-container {
+  width: 100%;
+  position: relative;
+}
+
+.ai-generated-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8rpx;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-hint {
+  color: #999;
+  font-size: 24rpx;
+  text-align: center;
+  margin-top: 10rpx;
+}
+
+/* 修改消息气泡样式以适应图片 */
+.message-ai {
+  max-width: 65vw;
+  padding: var(--spacing-sm);
+}
+
+/* 保持文本消息的原有内边距 */
+.message-ai .ai-message-text {
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+/* 模式切换按钮样式 */
+.toggle-mode {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
 }
 </style>

@@ -38,40 +38,40 @@ function loadEnvFile() {
       // 开发环境
       if (ENV === 'development') {
         config = {
-          API_BASE_URL: 'http://localhost:8000',
-          API_TIMEOUT: 10000,
-          WECHAT_APP_ID: 'wx_dev_app_id',
-          WECHAT_APP_SECRET: 'wx_dev_app_secret',
-          OSS_ACCESS_KEY: 'dev_access_key',
-          OSS_SECRET_KEY: 'dev_secret_key',
-          OSS_BUCKET: 'dev-bucket',
-          OSS_REGION: 'oss-cn-hangzhou'
+          API_BASE_URL: process.env.VUE_APP_API_BASE_URL || 'http://localhost:8000',
+          API_TIMEOUT: process.env.VUE_APP_API_TIMEOUT || 10000,
+          WECHAT_APP_ID: process.env.VUE_APP_WECHAT_APP_ID || 'wx_dev_app_id',
+          WECHAT_APP_SECRET: process.env.VUE_APP_WECHAT_APP_SECRET || 'wx_dev_app_secret',
+          OSS_ACCESS_KEY: process.env.VUE_APP_OSS_ACCESS_KEY || 'dev_access_key',
+          OSS_SECRET_KEY: process.env.VUE_APP_OSS_SECRET_KEY || 'dev_secret_key',
+          OSS_BUCKET: process.env.VUE_APP_OSS_BUCKET || 'dev-bucket',
+          OSS_REGION: process.env.VUE_APP_OSS_REGION || 'oss-cn-hangzhou'
         };
       } 
       // 测试环境
       else if (ENV === 'test') {
         config = {
-          API_BASE_URL: 'https://test-api.your-domain.com',
-          API_TIMEOUT: 15000,
-          WECHAT_APP_ID: 'wx_test_app_id',
-          WECHAT_APP_SECRET: 'wx_test_app_secret',
-          OSS_ACCESS_KEY: 'test_access_key',
-          OSS_SECRET_KEY: 'test_secret_key',
-          OSS_BUCKET: 'test-bucket',
-          OSS_REGION: 'oss-cn-hangzhou'
+          API_BASE_URL: process.env.VUE_APP_API_BASE_URL || 'https://test-api.your-domain.com',
+          API_TIMEOUT: process.env.VUE_APP_API_TIMEOUT || 15000,
+          WECHAT_APP_ID: process.env.VUE_APP_WECHAT_APP_ID || 'wx_test_app_id',
+          WECHAT_APP_SECRET: process.env.VUE_APP_WECHAT_APP_SECRET || 'wx_test_app_secret',
+          OSS_ACCESS_KEY: process.env.VUE_APP_OSS_ACCESS_KEY || 'test_access_key',
+          OSS_SECRET_KEY: process.env.VUE_APP_OSS_SECRET_KEY || 'test_secret_key',
+          OSS_BUCKET: process.env.VUE_APP_OSS_BUCKET || 'test-bucket',
+          OSS_REGION: process.env.VUE_APP_OSS_REGION || 'oss-cn-hangzhou'
         };
       } 
       // 生产环境
       else if (ENV === 'production') {
         config = {
-          API_BASE_URL: 'https://api.your-domain.com',
-          API_TIMEOUT: 20000,
-          WECHAT_APP_ID: 'wx_prod_app_id',
-          WECHAT_APP_SECRET: 'wx_prod_app_secret',
-          OSS_ACCESS_KEY: 'prod_access_key',
-          OSS_SECRET_KEY: 'prod_secret_key',
-          OSS_BUCKET: 'prod-bucket',
-          OSS_REGION: 'oss-cn-hangzhou'
+          API_BASE_URL: process.env.VUE_APP_API_BASE_URL || 'https://api.your-domain.com',
+          API_TIMEOUT: process.env.VUE_APP_API_TIMEOUT || 20000,
+          WECHAT_APP_ID: process.env.VUE_APP_WECHAT_APP_ID || 'wx_prod_app_id',
+          WECHAT_APP_SECRET: process.env.VUE_APP_WECHAT_APP_SECRET || 'wx_prod_app_secret',
+          OSS_ACCESS_KEY: process.env.VUE_APP_OSS_ACCESS_KEY || 'prod_access_key',
+          OSS_SECRET_KEY: process.env.VUE_APP_OSS_SECRET_KEY || 'prod_secret_key',
+          OSS_BUCKET: process.env.VUE_APP_OSS_BUCKET || 'prod-bucket',
+          OSS_REGION: process.env.VUE_APP_OSS_REGION || 'oss-cn-hangzhou'
         };
       }
     }

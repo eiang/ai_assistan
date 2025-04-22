@@ -51,26 +51,44 @@
       </view>
       
       <view class="button-group">
-        <button class="start-button" @tap="startChat">开始对话</button>
-        <button class="login-button" @tap="goToLogin">登录账号</button>
+        <button v-if="isLoggedIn" class="start-button" @tap="startChat">开始对话</button>
+        <button v-else class="login-button" @tap="goToLogin">登录账号</button>
       </view>
     </view>
   </view>
 </template>
 
 <script>
+import { checkLoginStatus } from '@/utils/auth'
+
 export default {
   data() {
     return {
       title: 'AI聊天助手',
-      halfMaxCell: 25 // 默认值，将在onLoad中更新
+      halfMaxCell: 25, // 默认值，将在onLoad中更新
+      isLoggedIn: false // 登录状态
     }
   },
   onLoad() {
     // 计算屏幕宽度下的最大cell值的一半
     this.calculateHalfMaxCell();
+    
+    // 检查登录状态
+    this.checkLogin();
+  },
+  // 每次页面显示时检查登录状态
+  onShow() {
+    // 检查登录状态
+    this.checkLogin();
   },
   methods: {
+    // 检查登录状态
+    checkLogin() {
+      // 使用工具函数检查登录状态
+      this.isLoggedIn = checkLoginStatus();
+      console.log('当前登录状态:', this.isLoggedIn ? '已登录' : '未登录');
+    },
+    
     // 计算最大cell值的一半
     calculateHalfMaxCell() {
       try {
@@ -104,6 +122,23 @@ export default {
     
     // 直接开始聊天
     startChat() {
+      // 再次检查登录状态，防止登录状态已过期
+      if (!checkLoginStatus()) {
+        uni.showToast({
+          title: '登录已过期，请重新登录',
+          icon: 'none',
+          duration: 2000
+        });
+        
+        // 延迟跳转到登录页面
+        setTimeout(() => {
+          this.goToLogin();
+        }, 2000);
+        
+        return;
+      }
+      
+      // 登录有效，跳转到聊天页面
       uni.navigateTo({
         url: '/pages/chat/chat'
       })
@@ -111,10 +146,27 @@ export default {
     
     // 使用快速操作
     useQuickAction(action) {
+      // 先检查登录状态
+      if (!checkLoginStatus()) {
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none',
+          duration: 2000
+        });
+        
+        // 延迟跳转到登录页面
+        setTimeout(() => {
+          this.goToLogin();
+        }, 2000);
+        
+        return;
+      }
+      
+      // 登录有效，跳转到聊天页面并传递预设问题
       uni.navigateTo({
         url: '/pages/chat/chat',
         success: () => {
-          // 这里可以设置全局状态来传递预设问题
+          // 设置全局状态来传递预设问题
           getApp().globalData.presetQuestion = action;
         }
       });
@@ -348,10 +400,10 @@ export default {
   color: #6e6868;
   font-size: 14px;
   border: 1px solid #d4c8c8;
-  margin-top: -13px;
   border-radius: 100px;
   padding: 5px 64px;
   transition: all 0.2s ease;
+  margin-bottom: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 

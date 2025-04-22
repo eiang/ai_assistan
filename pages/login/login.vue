@@ -25,6 +25,7 @@
 <script>
 import tuiIcon from "thorui-uni/lib/thorui/tui-icon/tui-icon.vue"
 import { authApi } from '../../api/index'
+import { saveLoginInfo } from '../../utils/auth'
 
 export default {
   components: {
@@ -88,14 +89,11 @@ export default {
           throw new Error('登录返回数据格式错误')
         }
         
-        // 保存token和用户信息
-        uni.setStorageSync('token', res.token)
-        
-        // 确保用户信息是对象格式
-        if (res.userInfo) {
-          // 直接存储对象，不需要JSON.stringify
-          uni.setStorageSync('userInfo', res.userInfo)
-        }
+        // 保存登录信息
+        saveLoginInfo({
+          token: res.token,
+          userInfo: res.userInfo || {}
+        })
         
         // 隐藏加载提示
         uni.hideLoading()
