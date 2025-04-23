@@ -11,6 +11,26 @@
       </view>
     </view>
     
+    <!-- 模式切换按钮区域 - 移至顶部 -->
+    <view class="top-mode-toggle">
+      <view class="mode-indicator">
+        <text class="mode-label">当前模式:</text>
+        <tui-tag 
+          size="small" 
+          padding="6px 10px" 
+          :type="isText2Pic ? 'light-blue' : 'gray'" 
+          @click="toggleVoiceInput"
+        >
+          <view class="toggle-mode">
+            <tui-icon :name="isText2Pic ? 'picture' : 'strategy'" :size="16"></tui-icon>
+            <text>{{isText2Pic ? '图像生成' : '文本对话'}}</text>
+          </view>
+        </tui-tag>
+        
+      </view>
+  
+    </view>
+
     <!-- 聊天内容区域 -->
     <scroll-view 
       class="chat-content" 
@@ -46,8 +66,19 @@
                 />
                 <view class="image-hint">点击可查看，长按可保存</view>
               </view>
-              <tui-alert :show="showModal" size="30" btnColor="#3b3b3b" btnText="复制" maskClosable="false" @click="copyContent(message.content)" @cancel="hideAlert">
-                {{message.content}}
+              <tui-alert 
+                :show="showModal" 
+                size="30" 
+                btnColor="#3b3b3b" 
+                btnText="复制" 
+                maskClosable="false" 
+                @click="copyContent(message.content)" 
+                @cancel="hideAlert"
+                class="custom-alert"
+              >
+                <scroll-view class="alert-scroll-view" scroll-y>
+                  <text class="alert-content">{{message.content}}</text>
+                </scroll-view>
               </tui-alert>
             </view>
           </view>
@@ -117,24 +148,6 @@
       
       <!-- 输入框区域 -->
       <view class="chat-input-area">
-        <!-- 模式切换按钮区域 -->
-        <view class="input-mode-toggle">
-          <view class="mode-indicator">
-            <text class="mode-label">当前模式:</text>
-            <tui-tag 
-              size="small" 
-              padding="6px 10px" 
-              :type="isText2Pic ? 'light-blue' : 'gray'" 
-              @click="toggleVoiceInput"
-            >
-              <view class="toggle-mode">
-                <tui-icon :name="isText2Pic ? 'picture' : 'strategy'" :size="16"></tui-icon>
-                <text>{{isText2Pic ? '图像生成' : '文本对话'}}</text>
-              </view>
-            </tui-tag>
-          </view>
-        </view>
-        
         <!-- 输入框和发送按钮区域 -->
         <view class="input-send-area">
           <textarea 
@@ -299,17 +312,20 @@ export default {
     setTimeout(() => {
       query.select('.chat-bottom').boundingClientRect();
       query.select('.chat-header').boundingClientRect();
+      query.select('.top-mode-toggle').boundingClientRect();
       query.exec(res => {
-        if (res && res[0] && res[1]) {
+        if (res && res[0] && res[1] && res[2]) {
           this.bottomHeight = res[0].height || 130;
           const headerHeight = res[1].height || 50;
+          const modeToggleHeight = res[2].height || 40;
           
-          // 计算内容区域高度 = 屏幕高度 - 导航栏高度 - 底部输入区域高度
-          this.contentHeight = systemInfo.windowHeight - headerHeight - this.bottomHeight;
-          console.log('计算高度：', this.contentHeight, '底部高度：', this.bottomHeight);
+          // 计算内容区域高度 = 屏幕高度 - 导航栏高度 - 模式切换区域高度 - 底部输入区域高度
+          this.contentHeight = systemInfo.windowHeight - headerHeight - modeToggleHeight - this.bottomHeight;
+          console.log('计算高度：', this.contentHeight, '底部高度：', this.bottomHeight, 
+                      '顶部高度：', headerHeight, '模式切换高度：', modeToggleHeight);
         } else {
           // 如果获取失败，使用默认值
-          this.contentHeight = systemInfo.windowHeight - 180; // 默认值
+          this.contentHeight = systemInfo.windowHeight - 220; // 默认值调整
         }
       });
     }, 100);
@@ -535,11 +551,16 @@ export default {
             
             if (response && response.result) {
               // 解析嵌套的JSON字符串
-              const resultData = typeof response.result === 'string' 
-                ? JSON.parse(response.result) 
-                : response.result;
+              let resultData = response.result;
               
-              console.log('解析后的图片数据:', resultData);
+              // 如果resultData已经是对象(前面的优化已经解析过JSON)，则直接使用
+              if (typeof resultData === 'object') {
+                console.log('已解析的图片数据:', resultData);
+              } else if (typeof resultData === 'string') {
+                // 仍需要解析字符串
+                resultData = JSON.parse(resultData);
+                console.log('解析后的图片数据:', resultData);
+              }
               
               if (resultData.success && resultData.data && resultData.data.length > 0) {
                 imageUrl = resultData.data[0].image_url;
@@ -559,16 +580,16 @@ export default {
               // 如果未找到图片URL，显示错误消息
               this.messageList.push({
                 type: 'ai',
-                content: '抱歉，图片生成失败，请稍后再试。',
+                content: '抱歉，图片生成失败，无法获取图片URL。请尝试调整您的描述再试。',
                 isImage: false,
                 time: this.formatTime(new Date())
               });
             }
           } catch (e) {
-            console.error('处理图片响应出错:', e);
+            console.error('处理图片响应出错:', e, '原始响应:', response);
             this.messageList.push({
               type: 'ai',
-              content: '抱歉，处理图片响应时出错，请稍后再试。',
+              content: '抱歉，处理图片响应时出错，请稍后再试。错误信息：' + e.message,
               isImage: false,
               time: this.formatTime(new Date())
             });
@@ -582,10 +603,23 @@ export default {
             }, 300);
           });
         }).catch(error => {
+          this.isThinking = false;
           console.error('文生图AI响应错误:', error);
+          
+          // 添加更具体的错误提示
+          let errorMessage = '抱歉，图片生成失败，请稍后再试。';
+          
+          if (error && error.message) {
+            if (error.message.includes('timeout') || error.message.includes('超时')) {
+              errorMessage = '图片生成超时，请尝试简化您的描述或稍后再试。';
+            } else if (error.message.includes('网络请求失败')) {
+              errorMessage = '网络连接不稳定，请检查您的网络后再试。';
+            }
+          }
+          
           this.messageList.push({
             type: 'ai',
-            content: '抱歉，图片生成失败，请稍后再试。',
+            content: errorMessage,
             isImage: false,
             time: this.formatTime(new Date())
           });
@@ -610,17 +644,32 @@ export default {
           
           request.get('/chat/chatAi', { message: userMessage }, {
             loading: false, // 不显示loading，因为我们有自己的加载状态
+            timeout: 120000, // 设置2分钟超时时间
+            maxRetries: 2,   // 设置最多重试2次
+            header: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
           }).then(response => {
             console.log('AI响应数据:', response);
             resolve(response);
           }).catch(error => {
             console.error('AI请求失败:', error);
-            const errorMsg = error.message || '获取AI回复失败';
-            uni.showToast({
-              title: errorMsg,
-              icon: 'none'
-            });
-            resolve('抱歉，我现在无法回答您的问题。请稍后再试。');
+            
+            // 针对不同错误类型返回不同的友好消息
+            let errorMsg = '抱歉，我现在无法回答您的问题。';
+            
+            if (error && error.message) {
+              if (error.message.includes('timeout') || error.message.includes('超时')) {
+                errorMsg = '回答您的问题需要较长时间，请尝试简化您的问题或稍后再试。';
+              } else if (error.message.includes('网络请求失败')) {
+                errorMsg = '网络连接不稳定，请检查您的网络后再试。';
+              } else if (error.code === 500) {
+                errorMsg = '服务器内部错误，请稍后再试。';
+              }
+            }
+            
+            resolve(errorMsg);
           });
         });
     },
@@ -632,30 +681,119 @@ export default {
       return new Promise((resolve, reject) => {
         console.log('请求生成图片，使用配置的baseUrl:', this.baseUrl);
         
-        request.get('/chat/text2imagewithdeepseek', { message: userMessage }, {
-          loading: false, // 不显示loading，因为我们有自己的加载状态
-          resInterceptor: (response) => {
-            // 自定义响应拦截器，直接返回原始响应数据
-            if (response.statusCode === 200) {
-              return response.data;
-            } else {
-              uni.showToast({
-                title: '生成图片失败',
-                icon: 'none'
-              });
-              return Promise.reject({
-                code: response.statusCode,
-                message: '生成图片失败'
-              });
+        // 定义重试相关参数
+        const maxRetries = 3;
+        let retryCount = 0;
+        
+        // 创建一个发送请求的函数以支持重试
+        const sendRequest = () => {
+          console.log(`正在尝试请求，第 ${retryCount + 1} 次尝试, 消息内容: ${userMessage.slice(0, 50)}...`);
+          
+          // 使用原生uni.request替代封装的request工具，以获取更多控制
+          uni.request({
+            url: this.baseUrl + '/chat/text2imagewithdeepseek',
+            method: 'GET',
+            data: { message: userMessage },
+            header: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            timeout: 120000, // 2分钟超时
+            success: (res) => {
+              console.log('API请求成功，状态码:', res.statusCode);
+              console.log('API响应头:', res.header);
+              
+              if (res.statusCode === 200) {
+                console.log('图片生成成功，响应数据长度:', typeof res.data === 'string' ? res.data.length : JSON.stringify(res.data).length);
+                try {
+                  let resultData = res.data;
+                  
+                  // 尝试解析响应数据
+                  if (typeof resultData === 'string') {
+                    resultData = JSON.parse(resultData);
+                  }
+                  
+                  // 如果resultData中有result字段且为字符串，再次尝试解析
+                  if (resultData.result && typeof resultData.result === 'string') {
+                    try {
+                      resultData.result = JSON.parse(resultData.result);
+                    } catch (err) {
+                      console.log('内层数据解析失败，保持原样:', err);
+                    }
+                  }
+                  
+                  resolve(resultData);
+                } catch (parseErr) {
+                  console.error('响应数据解析失败:', parseErr);
+                  // 即使解析失败，仍然返回原始数据
+                  resolve(res.data);
+                }
+              } else {
+                console.error(`API请求状态码错误: ${res.statusCode}`);
+                
+                // 如果状态码非200但仍有数据，尝试解析和使用
+                if (res.data) {
+                  try {
+                    let errorData = res.data;
+                    if (typeof errorData === 'string') {
+                      errorData = JSON.parse(errorData);
+                    }
+                    console.log('错误响应内容:', errorData);
+                    reject(errorData);
+                  } catch (e) {
+                    reject({
+                      code: res.statusCode,
+                      message: `服务器返回错误: ${res.statusCode}`,
+                      data: res.data
+                    });
+                  }
+                } else {
+                  reject({
+                    code: res.statusCode,
+                    message: `服务器返回错误: ${res.statusCode}`,
+                    data: null
+                  });
+                }
+              }
+            },
+            fail: (err) => {
+              console.error('API请求失败, 详细信息:', err);
+              
+              // 处理重试逻辑
+              if (retryCount < maxRetries) {
+                retryCount++;
+                console.log(`请求失败，正在进行第 ${retryCount} 次重试...`);
+                
+                // 延迟重试，避免连续快速请求
+                setTimeout(() => {
+                  sendRequest();
+                }, 2000); // 2秒后重试
+              } else {
+                console.error(`已达到最大重试次数 ${maxRetries}，放弃请求`);
+                
+                // 判断是否是超时
+                const isTimeout = err.errMsg && (
+                  err.errMsg.includes('timeout') || 
+                  err.errMsg.includes('超时')
+                );
+                
+                reject({
+                  code: isTimeout ? 408 : err.statusCode || -1,
+                  message: isTimeout ? 
+                    '图片生成超时，请尝试简化您的描述或稍后再试' : 
+                    (err.errMsg || '网络请求失败'),
+                  data: err
+                });
+              }
+            },
+            complete: () => {
+              console.log(`第 ${retryCount + 1} 次请求完成`);
             }
-          }
-        }).then(response => {
-          console.log('图片生成响应:', response);
-          resolve(response);
-        }).catch(error => {
-          console.error('图片生成请求失败:', error);
-          reject(error);
-        });
+          });
+        };
+        
+        // 开始第一次请求
+        sendRequest();
       });
     },
       
@@ -888,7 +1026,7 @@ export default {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   position: relative;
-  padding-bottom: 20px; /* 添加底部padding，确保时间显示完整 */
+  padding-bottom: 70px; /* 增加底部padding，确保消息不被底部输入区域遮挡 */
 }
 
 .day-divider {
@@ -926,6 +1064,7 @@ export default {
   margin-bottom: var(--spacing-lg);
   max-width: 95%;
   width: 100%; /* 确保容器有足够宽度 */
+  padding-bottom: 5px; /* 添加底部间距 */
 }
 
 .message-container.ai {
@@ -999,8 +1138,11 @@ export default {
   background-color: white;
   border-bottom-left-radius: 4px;
   color: var(--text-color);
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 12px 16px;
   word-break: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 /* Markdown内容样式调整 */
@@ -1031,7 +1173,11 @@ export default {
   background-color: var(--primary-color);
   color: white;
   border-bottom-right-radius: 4px;
-
+  padding: 12px 16px;
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 /* 底部输入区域 */
@@ -1058,21 +1204,27 @@ export default {
 }
 
 .chat-input-area {
-  padding: var(--spacing-md);
+  padding: 8px;
   display: flex;
   flex-direction: column;
   position: relative;
   gap: 10px;
   max-width: 960px; /* 设置最大宽度，让在大屏上的显示更好 */
   margin: 0 auto; /* 居中显示 */
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 101;
 }
 
 /* 模式切换区域 */
-.input-mode-toggle {
+.top-mode-toggle {
+  padding: 8px 10px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 6px;
-  padding: 0 4px;
+  align-items: center;
+  z-index: 5;
 }
 
 .mode-indicator {
@@ -1269,9 +1421,9 @@ export default {
 
 /* 底部安全区域 - 防止内容被底部遮挡 */
 .safe-bottom-area {
-  height: calc(50px + env(safe-area-inset-bottom, 0px));
+  height: calc(80px + env(safe-area-inset-bottom, 0px));
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* 响应式样式调整 */
@@ -1346,6 +1498,8 @@ export default {
 .ai-image-container {
   width: 100%;
   position: relative;
+  max-height: 70vh; /* 限制最大高度，防止图片过大 */
+  overflow-y: auto; /* 允许垂直滚动 */
 }
 
 .ai-generated-image {
@@ -1379,5 +1533,67 @@ export default {
   align-items: center;
   gap: 6px;
   transition: all 0.3s ease;
+}
+
+/* 增加滚动指示器 */
+.chat-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chat-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 2.5px;
+}
+
+/* 改进滚动区域，确保可以滑动查看所有内容 */
+.scroll-view-container {
+  -webkit-overflow-scrolling: touch; /* 增强iOS滚动体验 */
+  overflow-y: scroll;
+  height: 100%;
+}
+
+/* 响应式调整 */
+@media screen and (max-height: 600px) {
+  .safe-bottom-area {
+    height: 100px; /* 较小屏幕减少底部安全区域 */
+  }
+  
+  .chat-content {
+    padding-bottom: 50px; /* 减少底部padding */
+  }
+}
+
+/* 自定义弹窗样式 */
+.custom-alert :deep(.tui-alert-content) {
+  max-height: 60vh !important; /* 设置内容区域最大高度 */
+  padding: 0 !important; /* 移除内边距，由子元素控制 */
+  overflow: hidden !important; /* 隐藏溢出内容 */
+}
+
+/* 滚动视图样式 */
+.alert-scroll-view {
+  max-height: 60vh; /* 与父元素一致 */
+  padding: 15px; /* 补充内边距 */
+  -webkit-overflow-scrolling: touch; /* 增强iOS滚动体验 */
+}
+
+/* 弹窗内容样式 */
+.alert-content {
+  white-space: pre-wrap; /* 保留换行符 */
+  word-break: break-word; /* 单词换行 */
+  line-height: 1.5; /* 增加行高 */
+  font-size: 14px; /* 设置字体大小 */
+  width: 100%; /* 确保宽度充足 */
+  display: block; /* 块级显示 */
+}
+
+/* 自定义滚动条样式 */
+.alert-scroll-view::-webkit-scrollbar {
+  width: 4px;
+}
+
+.alert-scroll-view::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
 }
 </style>

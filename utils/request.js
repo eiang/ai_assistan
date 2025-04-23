@@ -124,8 +124,18 @@ const responseInterceptor = (response) => {
  * @returns {Promise} 请求Promise
  */
 function baseRequest(options, reqInterceptor, resInterceptor) {
-  // 设置请求超时时间
-  const timeout = options.timeout || API_TIMEOUT;
+  // 设置请求超时时间 - 根据不同接口类型动态设置不同超时
+  let timeout = options.timeout || API_TIMEOUT;
+  
+  // 针对特定API增加超时时间
+  if (options.url && options.url.includes('/chat/')) {
+    // 聊天和图片生成API需要更长的超时时间
+    if (options.url.includes('text2image')) {
+      timeout = options.timeout || 120000; // 图片生成默认2分钟
+    } else if (options.url.includes('chatAi')) {
+      timeout = options.timeout || 60000; // 文本聊天默认1分钟
+    }
+  }
   
   // 如果没有提供完整URL，则添加基础URL
   if (options.url && !options.url.startsWith('http')) {
@@ -139,59 +149,99 @@ function baseRequest(options, reqInterceptor, resInterceptor) {
     };
   }
   
-  return new Promise((resolve, reject) => {
-    // 应用请求拦截器（优先使用传入的，否则使用默认的）
-    const finalReqInterceptor = reqInterceptor || requestInterceptor;
-    const config = finalReqInterceptor ? finalReqInterceptor(options) : options;
-    
-    // 显示loading
-    if (options.loading !== false) {
-      uni.showLoading({
-        title: options.loadingText || '加载中...',
-        mask: true
-      });
-    }
-    
-    // 发起请求
-    uni.request({
-      ...config,
-      timeout: timeout,
-      success: (res) => {
-        // 应用响应拦截器（优先使用传入的，否则使用默认的）
-        const finalResInterceptor = resInterceptor || responseInterceptor;
-        if (finalResInterceptor) {
-          try {
-            const result = finalResInterceptor(res);
-            // 判断是否是Promise.reject
-            if (result instanceof Promise && result.catch) {
-              result.catch(err => reject(err));
-              // 如果是Promise.reject，不要调用resolve
-              if (!result.then) return;
-            }
-            resolve(result);
-          } catch (error) {
-            reject(error);
-          }
-        } else {
-          resolve(res);
-        }
-      },
-      fail: (err) => {
-        // 网络错误处理
-        uni.showToast({
-          title: '网络连接失败，请检查网络设置',
-          icon: 'none'
+  // 特定接口的重试次数
+  const maxRetries = options.maxRetries || 0;
+  let retryCount = 0;
+  
+  // 定义实际执行请求的函数（支持重试）
+  const executeRequest = () => {
+    return new Promise((resolve, reject) => {
+      // 应用请求拦截器（优先使用传入的，否则使用默认的）
+      const finalReqInterceptor = reqInterceptor || requestInterceptor;
+      const config = finalReqInterceptor ? finalReqInterceptor(options) : options;
+      
+      // 显示loading
+      if (options.loading !== false) {
+        uni.showLoading({
+          title: options.loadingText || '加载中...',
+          mask: true
         });
-        reject(err);
-      },
-      complete: () => {
-        // 隐藏loading
-        if (options.loading !== false) {
-          uni.hideLoading();
-        }
       }
+      
+      // 记录请求开始时间
+      const startTime = Date.now();
+      
+      // 发起请求
+      uni.request({
+        ...config,
+        timeout: timeout,
+        success: (res) => {
+          // 计算请求耗时
+          const requestTime = Date.now() - startTime;
+          console.log(`请求耗时 ${requestTime}ms: ${config.url}`);
+          
+          // 应用响应拦截器（优先使用传入的，否则使用默认的）
+          const finalResInterceptor = resInterceptor || responseInterceptor;
+          if (finalResInterceptor) {
+            try {
+              const result = finalResInterceptor(res);
+              // 判断是否是Promise.reject
+              if (result instanceof Promise && result.catch) {
+                result.catch(err => reject(err));
+                // 如果是Promise.reject，不要调用resolve
+                if (!result.then) return;
+              }
+              resolve(result);
+            } catch (error) {
+              reject(error);
+            }
+          } else {
+            resolve(res);
+          }
+        },
+        fail: (err) => {
+          // 计算请求耗时
+          const requestTime = Date.now() - startTime;
+          console.error(`请求失败，耗时 ${requestTime}ms: ${config.url}`, err);
+          
+          // 检查是否需要重试
+          if (retryCount < maxRetries) {
+            console.log(`尝试重试请求 (${retryCount + 1}/${maxRetries}): ${config.url}`);
+            retryCount++;
+            // 延迟后重试
+            setTimeout(() => {
+              executeRequest().then(resolve).catch(reject);
+            }, 1000); // 延迟1秒后重试
+            return;
+          }
+          
+          // 超过重试次数或不需要重试
+          let errMsg = err.errMsg || '网络请求失败';
+          // 判断是否是超时
+          const isTimeout = errMsg.includes('timeout') || errMsg.includes('超时');
+          if (isTimeout) {
+            errMsg = '请求超时，请检查网络连接或稍后再试';
+          }
+          
+          // 网络错误处理
+          uni.showToast({
+            title: errMsg,
+            icon: 'none'
+          });
+          reject(err);
+        },
+        complete: () => {
+          // 隐藏loading
+          if (options.loading !== false) {
+            uni.hideLoading();
+          }
+        }
+      });
     });
-  });
+  };
+  
+  // 返回执行请求的Promise
+  return executeRequest();
 }
 
 /**
