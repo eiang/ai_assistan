@@ -18,35 +18,50 @@
         <tui-tag 
           size="small" 
           padding="6px 10px" 
-          :type="isText2Pic ? 'light-blue' : 'gray'" 
+          type="gray" 
           @click="toggleVoiceInput"
         >
           <view class="toggle-mode">
-            <tui-icon :name="isText2Pic ? 'picture' : 'strategy'" :size="16"></tui-icon>
-            <text>{{isText2Pic ? '图像生成' : '文本对话'}}</text>
+            <tui-icon name="strategy" :size="16"></tui-icon>
+            <text>文本对话</text>
           </view>
         </tui-tag>
       </view>
-      <view v-if="!isText2Pic" class="mode-indicator1">
+      <view class="mode-indicator">
         <tui-tag 
           size="small" 
-          padding="6px 10px" 
-          :type="isOpenAddtionalFunction ? 'light-blue' : 'gray'" 
+          padding="6px 12px" 
+          type="gray" 
           @click="openDrawer"
         >
           <view class="toggle-mode">
             <tui-icon name="tool" :size="16"></tui-icon>
-            <text v-if="isOpenAddtionalFunction">附加功能: {{selectedFunction.text}}</text>
-            <text v-else>附加功能关闭</text>
+            <text>{{isOpenAddtionalFunction ? '附加功能: ' + selectedFunction.text : '附加功能关闭'}}</text>
           </view>
         </tui-tag>
       </view>
-  
     </view>
 
-    <tui-drawer mode="bottom" :visible="visible" @close="closeDrawer">
-      
-        <tui-cascade-selection :reset="reset" height="200px" :itemList="functionList" @complete="complete"></tui-cascade-selection>
+    <tui-drawer 
+      mode="bottom" 
+      :visible="visible" 
+      @close="closeDrawer"
+    >
+      <view style="padding: 20px; background-color: white;">
+        <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <text style="font-size: 18px; font-weight: bold;">选择附加功能</text>
+          <view @tap="closeDrawer" style="padding: 5px;">
+            <tui-icon name="close" :size="20" color="#666"></tui-icon>
+          </view>
+        </view>
+        <view style="height: 1px; background-color: #eee; margin-bottom: 15px;"></view>
+        <tui-cascade-selection 
+          :reset="reset" 
+          height="300px" 
+          :itemList="functionList" 
+          @complete="complete"
+        ></tui-cascade-selection>
+      </view>
     </tui-drawer>
 
     <!-- 聊天内容区域 -->
@@ -88,11 +103,10 @@
                 :show="showModal" 
                 size="30" 
                 btnColor="#3b3b3b" 
-                btnText="复制"
+                btnText="复制" 
                 maskClosable="false" 
                 @click="copyContent(message.content)" 
                 @cancel="hideAlert"
-                :showCancel="false"
                 class="custom-alert"
               >
                 <scroll-view class="alert-scroll-view" scroll-y>
@@ -165,78 +179,54 @@
         </view>
       </view>
       
-      <!-- 附加功能提示区域 -->
-      <view v-if="isOpenAddtionalFunction && selectedFunction.text" 
-            class="function-tip-area"
-            :class="{
-              'translate-tip': selectedFunction.text === '中译英' || selectedFunction.text === '英译中',
-              'review-tip': selectedFunction.text && selectedFunction.text.includes('评价'),
-              'cooking-tip': selectedFunction.text === '做菜达人',
-              'other-tip': !(selectedFunction.text === '中译英' || selectedFunction.text === '英译中') && !selectedFunction.text.includes('评价') && selectedFunction.text !== '做菜达人'
-            }">
-        <view class="function-tip-content">
-          <tui-icon :name="getFunctionIcon(selectedFunction.text)" :color="getFunctionColor(selectedFunction.text)" :size="18"></tui-icon>
-          <text class="function-tip-text">
-            <template v-if="selectedFunction.text === '中译英'">请输入需要翻译的中文内容</template>
-            <template v-else-if="selectedFunction.text === '英译中'">请输入需要翻译的英文内容</template>
-            <template v-else-if="selectedFunction.text === '中译日'">请输入需要翻译的中文内容</template>
-            <template v-else-if="selectedFunction.text === '日译中'">请输入需要翻译的日文内容</template>
-            <template v-else-if="selectedFunction.text === '中译法'">请输入需要翻译的中文内容</template>
-            <template v-else-if="selectedFunction.text === '法译中'">请输入需要翻译的法文内容</template>
-            <template v-else-if="selectedFunction.text && selectedFunction.text.includes('好评')">
-              请输入需要生成{{selectedFunction.value}}好评的事物关键词：如面条、火锅、鞋子、酒店等
-            </template>
-            <template v-else-if="selectedFunction.text && selectedFunction.text.includes('差评')">
-              请输入需要生成{{selectedFunction.value}}差评的事物关键词：如面条、火锅、鞋子、酒店等
-            </template>
-            <template v-else-if="selectedFunction.text && ['过节', '生日', '祝福', '表白', '分手'].includes(selectedFunction.text)">
-              请输入朋友圈文案的关键词或主题，将生成{{selectedFunction.value}}{{selectedFunction.text}}文案
-            </template>
-            <template v-else-if="selectedFunction.text && ['种草', '吐槽', '分享', '暗广'].includes(selectedFunction.text)">
-              请输入小红书文案的关键词或主题，将生成{{selectedFunction.value}}的{{selectedFunction.text}}文案
-            </template>
-            <template v-else-if="selectedFunction.text && ['衣服', '鞋子', '包包', '化妆品', '数码产品', '闲鱼转转二手'].includes(selectedFunction.text)">
-              请输入想要砍价的具体商品，将生成{{selectedFunction.value}}的砍价话术
-            </template>
-            <template v-else-if="selectedFunction.text === '做菜达人'">
-              请输入食材名称，例如：青椒，大蒜，猪肉
-            </template>
-            <template v-else>已启用{{selectedFunction.text}}功能</template>
-          </text>
+      <!-- 输入框区域 -->
+      <view class="chat-input-area">
+        <!-- 附加功能提示区域 -->
+        <view v-if="isOpenAddtionalFunction && selectedFunction.text" 
+              class="function-tip-area"
+              :class="{
+                'translate-tip': selectedFunction.text === '中译英' || selectedFunction.text === '英译中',
+                'review-tip': selectedFunction.text && selectedFunction.text.includes('评价'),
+                'other-tip': !(selectedFunction.text === '中译英' || selectedFunction.text === '英译中') && !selectedFunction.text.includes('评价')
+              }">
+          <view class="function-tip-content">
+            <tui-icon :name="getFunctionIcon(selectedFunction.text)" color="#4A90E2" :size="18"></tui-icon>
+            <text class="function-tip-text">
+              <template v-if="selectedFunction.text === '中译英'">请输入需要翻译的中文内容</template>
+              <template v-else-if="selectedFunction.text === '英译中'">请输入需要翻译的英文内容</template>
+              <template v-else-if="selectedFunction.text && selectedFunction.text.includes('好评')">
+                请输入需要生成{{selectedFunction.value}}好评的事物关键词：如面条、火锅、鞋子、酒店等
+              </template>
+              <template v-else-if="selectedFunction.text && selectedFunction.text.includes('差评')">
+                请输入需要生成{{selectedFunction.value}}差评的事物关键词：如面条、火锅、鞋子、酒店等
+              </template>
+              <template v-else>已启用{{selectedFunction.text}}功能</template>
+            </text>
+          </view>
         </view>
-      </view>
-      
-      <!-- 图像生成模式提示区域 -->
-      <view v-if="isText2Pic && !isOpenAddtionalFunction" class="function-tip-area image-gen-tip">
-        <view class="function-tip-content">
-          <tui-icon name="picture" color="#9C27B0" :size="18"></tui-icon>
-          <text class="function-tip-text">
-            请输入详细的图像描述，AI将为您生成相应的图片
-          </text>
-        </view>
-      </view>
-      
-      <!-- 输入框和发送按钮区域 -->
-      <view class="input-send-area">
-        <textarea 
-          class="chat-input" 
-          v-model="inputMessage" 
-          placeholder="输入消息..." 
-          :auto-height="true"
-          :cursor-spacing="8"
-          :show-confirm-bar="false"
-          :adjust-position="false"
-          @input="adjustInputHeight"
-          @focus="onInputFocus"
-          @blur="onInputBlur"
-          @keyboardheightchange="onKeyboardHeightChange"
-          :maxlength="-1"
-          confirm-type="return"
-          :confirm-hold="true"
-        />
-        <view class="send-btn-area">
-          <view class="chat-btn send-btn" @tap="sendMessage" :class="{'btn-active': inputMessage.trim().length > 0}">
-            <tui-icon name="send" :color="inputMessage.trim().length > 0 ? '#4A90E2' : '#999'"></tui-icon>
+        
+        <!-- 输入框和发送按钮区域 -->
+        <view class="input-send-area">
+          <textarea 
+            class="chat-input" 
+            v-model="inputMessage" 
+            placeholder="输入消息..." 
+            :auto-height="true"
+            :cursor-spacing="8"
+            :show-confirm-bar="false"
+            :adjust-position="false"
+            @input="adjustInputHeight"
+            @focus="onInputFocus"
+            @blur="onInputBlur"
+            @keyboardheightchange="onKeyboardHeightChange"
+            :maxlength="-1"
+            confirm-type="return"
+            :confirm-hold="true"
+          />
+          <view class="send-btn-area">
+            <view class="chat-btn send-btn" @tap="sendMessage" :class="{'btn-active': inputMessage.trim().length > 0}">
+              <tui-icon name="send" :color="inputMessage.trim().length > 0 ? '#4A90E2' : '#999"></tui-icon>
+            </view>
           </view>
         </view>
       </view>
@@ -314,10 +304,6 @@ export default {
         children: [
           { text: '中译英' ,value:'中译英'},
           { text: '英译中' ,value:'英译中'},
-          { text: '中译日' ,value:'中译日'},
-          { text: '日译中' ,value:'日译中'},
-          { text: '中译法' ,value:'中译法'},
-          { text: '法译中' ,value:'法译中'},
         ]
       },
       {
@@ -327,38 +313,6 @@ export default {
           { text: '差评' ,value:'差评',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
         ]
       },
-      {
-        text: '朋友圈文案',
-        children: [
-          { text: '过节' ,value:'过节',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '生日' ,value:'生日',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '祝福' ,value:'祝福',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '表白' ,value:'表白',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '分手' ,value:'分手',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-        ]
-      },
-      {
-        text: '小红书文案',
-        children: [
-          { text: '种草' ,value:'种草',children:[{text:'五十字',value:'五十字'},{text:'一百字',value:'一百字'},{text:'二百字',value:'二百字'}]},
-          { text: '吐槽' ,value:'吐槽',children:[{text:'五十字',value:'五十字'},{text:'一百字',value:'一百字'},{text:'二百字',value:'二百字'}]},
-          { text: '分享' ,value:'分享',children:[{text:'五十字',value:'五十字'},{text:'一百字',value:'一百字'},{text:'二百字',value:'二百字'}]},
-          { text: '暗广' ,value:'暗广',children:[{text:'五十字',value:'五十字'},{text:'一百字',value:'一百字'},{text:'二百字',value:'二百字'}]},
-        ]
-      },
-      {
-        text: '砍价话术',
-        children: [
-          { text: '衣服' ,value:'衣服',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '鞋子' ,value:'鞋子',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '包包' ,value:'包包',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '化妆品' ,value:'化妆品',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '数码产品' ,value:'数码产品',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-          { text: '闲鱼转转二手' ,value:'闲鱼转转二手',children:[{text:'二十字',value:'二十字'},{text:'三十字',value:'三十字'},{text:'四十字',value:'四十字'}]},
-        ]
-      },{
-        text: '做菜达人',
-      }
      
     ];
     // 从环境配置中获取API基础URL
@@ -829,20 +783,16 @@ export default {
           
           // 如果开启了附加功能，将功能信息加入请求
           if (this.isOpenAddtionalFunction && this.selectedFunction.text) {
-            const prefix = this.getFunctionPrefix(this.selectedFunction.text);
-            
-            // 构建完整的functionType，包含前缀和具体功能
-            const fullFunctionType = prefix + this.selectedFunction.text;
-            
             requestData = {
               message: userMessage,
-              functionType: fullFunctionType,
+              functionType: this.selectedFunction.text,
               functionValue: this.selectedFunction.value
             };
-            console.log('附加功能已启用，发送附加数据:', requestData);
+            console.log('附加功能已启用，发送附加数据:', this.selectedFunction);
           }
           
           request.get('/chat/chatAi', requestData, {
+            
             loading: false, // 不显示loading，因为我们有自己的加载状态
             timeout: 120000, // 设置2分钟超时时间
             maxRetries: 2,   // 设置最多重试2次
@@ -1121,7 +1071,7 @@ export default {
             uni.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
               success: () => {
-        uni.showToast({
+                uni.showToast({
                   title: '保存成功',
                   icon: 'success'
                 });
@@ -1158,20 +1108,10 @@ export default {
      * 根据功能类型获取对应的图标
      */
     getFunctionIcon(functionType) {
-      if (functionType === '中译英' || functionType === '英译中' || 
-          functionType === '中译日' || functionType === '日译中' || 
-          functionType === '中译法' || functionType === '法译中') {
+      if (functionType === '中译英' || functionType === '英译中') {
         return 'exchange';
-      } else if (functionType && (functionType.includes('好评') || functionType.includes('差评'))) {
+      } else if (functionType && functionType.includes('评价')) {
         return 'star';
-      } else if (functionType && ['过节', '生日', '祝福', '表白', '分手'].includes(functionType)) {
-        return 'circle-friend';  // 朋友圈图标
-      } else if (functionType && ['种草', '吐槽', '分享', '暗广'].includes(functionType)) {
-        return 'fabulous';  // 点赞/小红书图标
-      } else if (functionType && ['衣服', '鞋子', '包包', '化妆品', '数码产品', '闲鱼转转二手'].includes(functionType)) {
-        return 'money';  // 砍价/金钱图标
-      } else if (functionType === '做菜达人') {
-        return 'shop';  // 使用商店图标表示做菜
       } else {
         return 'tip';
       }
@@ -1181,42 +1121,13 @@ export default {
      * 根据功能类型获取对应的颜色
      */
     getFunctionColor(functionType) {
-      if (functionType === '中译英' || functionType === '英译中' || 
-          functionType === '中译日' || functionType === '日译中' || 
-          functionType === '中译法' || functionType === '法译中') {
-        return '#4A90E2'; // 蓝色 - 翻译
-      } else if (functionType && (functionType.includes('好评') || functionType.includes('差评'))) {
-        return '#FF9500'; // 橙色 - 评价
-      } else if (functionType && ['过节', '生日', '祝福', '表白', '分手'].includes(functionType)) {
-        return '#07C160'; // 绿色 - 朋友圈
-      } else if (functionType && ['种草', '吐槽', '分享', '暗广'].includes(functionType)) {
-        return '#FF2442'; // 红色 - 小红书
-      } else if (functionType && ['衣服', '鞋子', '包包', '化妆品', '数码产品', '闲鱼转转二手'].includes(functionType)) {
-        return '#F9A825'; // 黄色 - 砍价
-      } else if (functionType === '做菜达人') {
-        return '#4CAF50'; // 绿色 - 做菜
+      if (functionType === '中译英' || functionType === '英译中') {
+        return '#4A90E2'; // 蓝色
+      } else if (functionType && functionType.includes('评价')) {
+        return '#FF9500'; // 橙色
       } else {
-        return '#5cb85c'; // 默认绿色
+        return '#5cb85c'; // 绿色
       }
-    },
-
-    /**
-     * 获取功能前缀
-     * 根据功能类型构建适当的前缀，以匹配后端接口
-     */
-    getFunctionPrefix(functionType) {
-      if (['中译英', '英译中', '中译日', '日译中', '中译法', '法译中'].includes(functionType)) {
-        return '翻译';
-      } else if (['好评', '差评'].includes(functionType)) {
-        return '评价';
-      } else if (['过节', '生日', '祝福', '表白', '分手'].includes(functionType)) {
-        return '朋友圈';
-      } else if (['种草', '吐槽', '分享', '暗广'].includes(functionType)) {
-        return '小红书';
-      } else if (['衣服', '鞋子', '包包', '化妆品', '数码产品', '闲鱼转转二手'].includes(functionType)) {
-        return '砍价';
-      }
-      return '';
     },
   }
 };
@@ -1487,8 +1398,10 @@ export default {
   background-color: #f9f9f9;
   border-bottom: 1px solid var(--border-color);
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  gap: 8px;
   z-index: 5;
 }
 
@@ -1496,16 +1409,40 @@ export default {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
-.mode-indicator1 {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+
 .mode-label {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.mode-indicator-function {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 375px) {
+  .top-mode-toggle {
+    padding: 8px 6px;
+    gap: 6px;
+  }
+  
+  .mode-indicator, .mode-indicator-function {
+    margin-left: 0;
+    gap: 4px;
+  }
+  
+  .mode-label {
+    font-size: 10px;
+  }
+  
+  .function-status-text {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 /* 输入框和发送按钮区域 */
@@ -1869,68 +1806,133 @@ export default {
 
 /* 附加功能提示区域 */
 .function-tip-area {
-  padding: 8px 12px;
+  padding: 10px 14px;
   background-color: #f5f9ff;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
   border-left: 3px solid #4A90E2;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  animation: tip-fade-in 0.3s ease-in-out;
+  transition: all 0.3s ease;
+}
+
+@keyframes tip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .function-tip-content {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .function-tip-text {
-  font-size: 13px;
+  font-size: 14px;
   color: #4c5864;
   line-height: 1.5;
   margin-left: 4px;
+  flex: 1;
 }
 
 /* 不同功能的提示样式 */
 .translate-tip {
   background-color: #eef6ff;
   border-left-color: #4A90E2;
+  border-left-width: 4px;
 }
 
 .review-tip {
   background-color: #fff8ee;
   border-left-color: #FF9500;
-}
-
-.cooking-tip {
-  background-color: #e8f5e9;
-  border-left-color: #4CAF50;
+  border-left-width: 4px;
 }
 
 .other-tip {
   background-color: #f2fbf2;
   border-left-color: #5cb85c;
+  border-left-width: 4px;
 }
 
-/* 图像生成模式提示区域 */
-.image-gen-tip {
-  padding: 8px 12px;
-  background-color: #ffd700;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  border-left: 3px solid #9C27B0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+.drawer-container {
+  padding: 20px 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 16px));
+  background-color: white;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.image-gen-tip .function-tip-content {
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.drawer-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+}
+
+.drawer-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  background-color: #f5f5f5;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
-.image-gen-tip .function-tip-text {
-  font-size: 13px;
-  color: #4c5864;
-  line-height: 1.5;
-  margin-left: 4px;
+.drawer-close-btn:active {
+  background-color: #e0e0e0;
+  transform: scale(0.95);
+}
+
+.drawer-divider {
+  height: 1px;
+  background-color: #e8e8e8;
+  margin-bottom: 20px;
+}
+
+.custom-cascade {
+  height: 300px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.function-status-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.function-status-text.active {
+  color: #4A90E2;
+}
+
+.drawer-handle {
+  width: 40px;
+  height: 5px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  margin: 0 auto 16px;
 }
 </style>
