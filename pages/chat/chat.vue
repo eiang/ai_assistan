@@ -647,7 +647,8 @@ export default {
       
       // 如果开启了附加功能，在用户UI消息中标注
       if (this.isOpenAddtionalFunction && this.selectedFunction.text) {
-        userMessageContent = `${this.inputMessage} [${this.selectedFunction.text}]`;
+        // userMessageContent = `${this.inputMessage} [${this.selectedFunction.text}]`;
+        userMessageContent = this.inputMessage
       }
       
       // 添加用户消息
