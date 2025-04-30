@@ -5,7 +5,7 @@
       <view class="back-btn" @click="goBack">
         <tui-icon name="arrowleft"></tui-icon>
       </view>
-      <view class="chat-title">AI 聊天助手</view>
+      <view class="chat-title">BQ智能助手</view>
       <view class="chat-settings" @click="goToSettings">
         <tui-icon name="setup"></tui-icon>
       </view>
@@ -452,8 +452,8 @@ export default {
           
           // 计算内容区域高度 = 屏幕高度 - 导航栏高度 - 模式切换区域高度 - 底部输入区域高度
           this.contentHeight = systemInfo.windowHeight - headerHeight - modeToggleHeight - this.bottomHeight;
-          console.log('计算高度：', this.contentHeight, '底部高度：', this.bottomHeight, 
-                      '顶部高度：', headerHeight, '模式切换高度：', modeToggleHeight);
+          // console.log('计算高度：', this.contentHeight, '底部高度：', this.bottomHeight, 
+          //             '顶部高度：', headerHeight, '模式切换高度：', modeToggleHeight);
         } else {
           // 如果获取失败，使用默认值
           this.contentHeight = systemInfo.windowHeight - 220; // 默认值调整
@@ -572,7 +572,7 @@ export default {
      */
     onKeyboardHeightChange(e) {
       const height = e.detail.height;
-      console.log('键盘高度变化：', height);
+      // console.log('键盘高度变化：', height);
       
       if (height > 0) {
         // 键盘弹出
@@ -625,7 +625,7 @@ export default {
       this.messageList = [
         {
           type: 'ai',
-          content: '你好！我是你的AI聊天助手，有什么我可以帮助你的吗？',
+          content: '你好！我是你的AI智能助手，有什么我可以帮助你的吗？',
           time: timeStr
         }
       ];

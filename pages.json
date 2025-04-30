@@ -3,7 +3,7 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "AI聊天助手",
+        "navigationBarTitleText": "BQ智能助手",
         "navigationBarBackgroundColor": "#4A90E2",
         "navigationBarTextStyle": "white"
       }
@@ -18,7 +18,7 @@
     {
       "path": "pages/chat/chat",
       "style": {
-        "navigationBarTitleText": "AI 聊天助手",
+        "navigationBarTitleText": "对话",
         "navigationBarBackgroundColor": "#4A90E2",
         "navigationBarTextStyle": "white",
         "app-plus": {
@@ -47,14 +47,14 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "AI 聊天助手",
+    "navigationBarTitleText": "BQ智能助手",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
   "easycom": {
-		"autoscan": true,
-		"custom": {
-			"tui-(.*)": "thorui-uni/lib/thorui/tui-$1/tui-$1.vue"
-		}
-	}
-} 
+    "autoscan": true,
+    "custom": {
+      "tui-(.*)": "thorui-uni/lib/thorui/tui-$1/tui-$1.vue"
+    }
+  }
+}

@@ -21,28 +21,28 @@
     <!-- 设置列表 -->
     <view class="settings-list">
       <!-- 深色模式 -->
-      <view class="settings-item" @click="toggleDarkMode">
+      <!-- <view class="settings-item" @click="toggleDarkMode">
         <text class="item-label">深色模式</text>
         <switch :checked="isDarkMode" @change="toggleDarkMode" color="#007AFF" />
-      </view>
+      </view> -->
       
       <!-- 语音播报 -->
-      <view class="settings-item" @click="toggleVoiceBroadcast">
+      <!-- <view class="settings-item" @click="toggleVoiceBroadcast">
         <text class="item-label">语音播报</text>
         <switch :checked="isVoiceBroadcast" @change="toggleVoiceBroadcast" color="#007AFF" />
-      </view>
+      </view> -->
       
       <!-- 保存聊天记录 -->
-      <view class="settings-item" @click="toggleSaveHistory">
+      <!-- <view class="settings-item" @click="toggleSaveHistory">
         <text class="item-label">保存聊天记录</text>
         <switch :checked="isSaveHistory" @change="toggleSaveHistory" color="#007AFF" />
-      </view>
+      </view> -->
       
       <!-- 聊天记录 -->
-      <view class="settings-item" @click="navigateToHistory">
+      <!-- <view class="settings-item" @click="navigateToHistory">
         <text class="item-label">聊天记录</text>
         <text class="item-arrow">></text>
-      </view>
+      </view> -->
       
       <!-- 关于 -->
       <view class="settings-item" @click="showAbout">
@@ -53,7 +53,7 @@
     
     <!-- 操作按钮 -->
     <view class="action-buttons">
-      <button class="clear-btn" @click="clearChatHistory">清除聊天记录</button>
+      <!-- <button class="clear-btn" @click="clearChatHistory">清除聊天记录</button> -->
       <button class="logout-btn" @click="handleLogout">退出登录</button>
     </view>
   </view>
@@ -87,11 +87,11 @@ export default {
   onShow() {
     console.log('设置页面显示');
     // 确保页面正确显示
-    uni.showToast({
-      title: '设置页面已打开',
-      icon: 'none',
-      duration: 1000
-    });
+    // uni.showToast({
+    //   title: '设置页面已打开',
+    //   icon: 'none',
+    //   duration: 1000
+    // });
     
     // 强制更新页面内容
     this.$forceUpdate();
@@ -216,7 +216,7 @@ export default {
     showAbout() {
       uni.showModal({
         title: '关于',
-        content: 'AI聊天助手 v1.0.0\n\n一个智能的对话伙伴，随时解答您的问题。',
+        content: 'BQ-AI智能助手。\n\n\n一个智能的对话伙伴，随时解答您的问题。\n\n\n作者微信:Bro_Qiang102197',
         showCancel: false
       });
     },
@@ -382,15 +382,28 @@ export default {
 }
 
 .clear-btn {
-  background-color: #FFFFFF;
-  color: #FF3B30;
-  border: 1px solid #FF3B30;
-  margin-bottom: 15px;
+   background-color: transparent;
+  color: #6e6868;
+  font-size: 14px;
+  border: 1px solid #d4c8c8;
+  border-radius: 100px;
+  padding: 5px 64px;
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .logout-btn {
-  background-color: #FF3B30;
-  color: #FFFFFF;
+ background-color: #4A90E2;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 5px 64px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
 }
 
 /* 深色模式适配 */
