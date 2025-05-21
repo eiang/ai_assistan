@@ -68,3 +68,4 @@ project.private.config.json
 .circleci/ 
 api_documentation.md
 ai_assistant.code-workspace
+manifest.json
